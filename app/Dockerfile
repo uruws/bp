@@ -3,6 +3,20 @@ FROM uws/app:meteor-1.10.2
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="2021.05.03"
 
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh bzip2
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
 RUN install -v -d -m 0750 ${HOME}/app/
 
 COPY --chown=uws:uws ./src/ ${HOME}/app/
@@ -13,4 +27,7 @@ RUN echo "*** $(meteor --version)" \
 	&& echo "***   Node $(node --version)" \
 	&& echo "***    NPM $(npm --version)"
 
-RUN npm install
+COPY --chown=uws:uws ./vendor/node_modules/ ${HOME}/app/node_modules/
+COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
+
+RUN meteor npm install
