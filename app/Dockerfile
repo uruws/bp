@@ -12,3 +12,5 @@ WORKDIR ${HOME}/app
 RUN echo "*** $(meteor --version)" \
 	&& echo "***   Node $(node --version)" \
 	&& echo "***    NPM $(npm --version)"
+
+RUN npm install
