@@ -6,3 +6,9 @@ LABEL version="2021.05.03"
 RUN install -v -d -m 0750 ${HOME}/app/
 
 COPY --chown=uws:uws ./src/ ${HOME}/app/
+
+WORKDIR ${HOME}/app
+
+RUN echo "*** $(meteor --version)" \
+	&& echo "***   Node $(node --version)" \
+	&& echo "***    NPM $(npm --version)"
