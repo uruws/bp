@@ -11,6 +11,8 @@ ENV HOME /root
 
 RUN /root/bin/apt-install.sh bzip2
 
+RUN install -v -d -m 0750 -o uws -g uws /opt/app
+
 USER uws:uws
 WORKDIR /home/uws
 
@@ -32,5 +34,8 @@ COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
 
 RUN meteor npm install
 
-RUN rm -rf ${HOME}/bundle \
-	&& meteor build --server-only --directory ${HOME}/bundle
+RUN meteor build --server-only --directory /opt/app
+
+WORKDIR /opt/app/bundle/programs/server
+
+RUN meteor npm install --production
