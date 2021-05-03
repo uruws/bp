@@ -5,17 +5,16 @@ LABEL version="2021.05.03"
 
 RUN curl -sS https://install.meteor.com/?release=1.10.2 | /bin/sh
 
-ENV PATH /home/uws/.meteor:${PATH}
-
-RUN meteor --version
-
-RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"); \
-	export METEOR_NPM=$(dirname ${METEOR_NODE})/npm; \
-	mkdir -vp /home/uws/bin \
-	&& ln -sv ${METEOR_NODE} /home/uws/bin/node \
-	&& ln -sv ${METEOR_NPM} /home/uws/bin/npm
+RUN mkdir -vp /home/uws/bin \
+	&& ln -sv /home/uws/.meteor/meteor /home/uws/bin/meteor
 
 ENV PATH /home/uws/bin:${PATH}
 
-RUN node --version
-RUN npm --version
+RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"); \
+	export METEOR_NPM=$(dirname ${METEOR_NODE})/npm; \
+	ln -sv ${METEOR_NODE} /home/uws/bin/node \
+	&& ln -sv ${METEOR_NPM} /home/uws/bin/npm
+
+RUN meteor --version \
+	&& node --version \
+	&& npm --version
