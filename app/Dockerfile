@@ -39,3 +39,9 @@ RUN meteor build --server-only --directory /opt/app
 WORKDIR /opt/app/bundle/programs/server
 
 RUN meteor npm install --production
+
+WORKDIR /opt/app/bundle
+
+RUN timeout -k90 -s15 60 node main.js
+
+ENTRYPOINT exec node main.js
