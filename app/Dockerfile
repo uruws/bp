@@ -32,7 +32,5 @@ COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
 
 RUN meteor npm install
 
-ARG ROOT_URL http://localhost:3000/
-
 RUN rm -rf ${HOME}/bundle \
-	&& meteor build --server ${ROOT_URL} --server-only --directory ${HOME}/bundle
+	&& meteor build --server-only --directory ${HOME}/bundle
