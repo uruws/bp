@@ -13,7 +13,7 @@ ADD ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 RUN /root/bin/apt-distupgrade.sh
-RUN /root/bin/apt-install.sh bash ca-certificates wget locales
+RUN /root/bin/apt-install.sh bash ca-certificates locales curl
 
 RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 	&& locale-gen \
