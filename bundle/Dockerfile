@@ -20,6 +20,8 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+COPY --chown=uws:uws ./utils/*.sh /home/uws/utils/
+
 RUN /home/uws/utils/meteor-build.sh
 
 RUN /home/uws/utils/server-npm-install.sh
