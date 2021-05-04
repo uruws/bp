@@ -1,3 +1,4 @@
 #!/bin/sh
 set -eu
-exec docker build $@ --rm -t uws/app:meteor-install-1.10.2 ./app
+app_tag=$(git -C app/src describe --tags)
+exec docker build $@ --rm -t uws/app:${app_tag} ./app

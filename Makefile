@@ -2,7 +2,7 @@
 default: all
 
 .PHONY: all
-all: docker/base docker/meteor app
+all: docker/base docker/meteor app/src app
 
 .PHONY: docker/base
 docker/base:
@@ -17,5 +17,5 @@ app/src:
 	@git submodule update --init app/src
 
 .PHONY: app
-app: app/src
+app:
 	@./app/build.sh
