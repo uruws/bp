@@ -2,7 +2,7 @@
 default: all
 
 .PHONY: all
-all: docker/base docker/meteor app/src app
+all: docker/base docker/meteor app/src app install
 
 .PHONY: docker/base
 docker/base:
@@ -19,3 +19,7 @@ app/src:
 .PHONY: app
 app:
 	@./app/build.sh
+
+.PHONY: install
+install:
+	@./install/build.sh
