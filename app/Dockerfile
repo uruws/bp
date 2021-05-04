@@ -23,6 +23,9 @@ RUN install -v -d -m 0750 ${HOME}/app/
 
 COPY --chown=uws:uws ./src/ ${HOME}/app/
 
+# https://docs.meteor.com/environment-variables.html#METEOR-DISABLE-OPTIMISTIC-CACHING
+ENV METEOR_DISABLE_OPTIMISTIC_CACHING 1
+
 WORKDIR ${HOME}/app
 
 RUN echo "*** $(meteor --version)" \
