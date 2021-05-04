@@ -1,4 +1,3 @@
 #!/bin/sh
 set -eu
-app_tag=$(git -C app/src describe --tags)
-exec docker build $@ --rm -t uws/app:${app_tag} ./app
+exec docker build $@ --rm -t uws/app:source-meteor-1.10.2 ./app
