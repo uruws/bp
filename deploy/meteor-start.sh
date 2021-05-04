@@ -23,8 +23,11 @@ if ! test -s ${appenv}; then
 	echo "${appenv}: file not found" >&2
 	exit 1
 fi
-ls -lh ${appenv}
-tail ${appenv}
+ls -lhL ${appenv}
+
+echo "ROOT_URL=${ROOT_URL}"
+echo "PORT=${PORT}"
+echo "DISABLE_JOBS=${DISABLE_JOBS}"
 
 echo "--- DEBUG end"
 
