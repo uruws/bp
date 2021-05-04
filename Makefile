@@ -12,6 +12,10 @@ docker/base:
 docker/meteor:
 	@./docker/meteor/build.sh
 
+.PHONY: app/src
+app/src:
+	@git submodule update --init app/src
+
 .PHONY: app
-app:
+app: app/src
 	@./app/build.sh
