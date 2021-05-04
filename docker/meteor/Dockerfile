@@ -15,6 +15,6 @@ RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"
 	ln -sv ${METEOR_NODE} /home/uws/bin/node \
 	&& ln -sv ${METEOR_NPM} /home/uws/bin/npm
 
-RUN meteor --version \
-	&& node --version \
-	&& npm --version
+RUN echo "*** $(meteor --version)" \
+	&& echo "***   Node $(node --version)" \
+	&& echo "***    NPM $(npm --version)"

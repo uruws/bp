@@ -28,10 +28,6 @@ ENV METEOR_DISABLE_OPTIMISTIC_CACHING 1
 
 WORKDIR ${HOME}/app
 
-RUN echo "*** $(meteor --version)" \
-	&& echo "***   Node $(node --version)" \
-	&& echo "***    NPM $(npm --version)"
-
 COPY --chown=uws:uws ./vendor/node_modules/ ${HOME}/app/node_modules/
 COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
 
