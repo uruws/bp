@@ -12,20 +12,16 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh bzip2 libfontconfig1
 
 RUN install -v -d -m 0750 -o uws -g uws /opt/app
+RUN install -v -d -m 0750 -o uws -g uws /opt/app/bundle/programs/server/npm/node_modules
 
 USER uws:uws
 
 ENV USER uws
 ENV HOME /home/uws
 
-# https://docs.meteor.com/environment-variables.html#METEOR-DISABLE-OPTIMISTIC-CACHING
-ENV METEOR_DISABLE_OPTIMISTIC_CACHING 1
+COPY --chown=uws:uws ./vendor/node_modules/ /opt/app/bundle/programs/server/npm/node_modules/
+COPY --chown=uws:uws ./utils/*.sh /home/uws/utils/
 
-WORKDIR ${HOME}/app
+RUN /home/uws/utils/meteor-build.sh
 
-RUN rm -rf /opt/app/bundle \
-	&& meteor build /opt/app --directory --server-only
-
-WORKDIR /opt/app/bundle/programs/server
-
-RUN meteor npm install --production
+RUN /home/uws/utils/server-npm-install.sh
