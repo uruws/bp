@@ -1,3 +1,3 @@
-# AppBundle
+# Buildpack
 
 App build tools.
