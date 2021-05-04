@@ -3,6 +3,12 @@ FROM uws/app:bundle-meteor-1.10.2
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="2021.05.03"
 
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
 RUN install -v -m 0755 /home/uws/app/.meteor/local/dev_bundle/bin/node /usr/local/bin/node
 
 FROM uws/app:base
