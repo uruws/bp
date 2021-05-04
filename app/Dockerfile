@@ -45,6 +45,6 @@ RUN meteor npm install --production
 
 WORKDIR /opt/app/bundle
 
-RUN timeout -k90 -s15 60 node main.js
+RUN timeout -k20 -s15 10 node main.js || true
 
 ENTRYPOINT exec node main.js
