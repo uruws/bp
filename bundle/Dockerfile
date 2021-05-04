@@ -12,7 +12,6 @@ ENV HOME /root
 RUN /root/bin/apt-install.sh bzip2 libfontconfig1
 
 RUN install -v -d -m 0750 -o uws -g uws /opt/app
-RUN install -v -d -m 0750 -o uws -g uws /opt/app/bundle/programs/server/npm/node_modules
 
 USER uws:uws
 WORKDIR /home/uws
