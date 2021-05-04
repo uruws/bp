@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh bzip2 libfontconfig1
+RUN /root/bin/apt-install.sh bzip2 libfontconfig1 openssl
 
 RUN install -v -d -m 0750 -o uws -g uws /opt/app
 
