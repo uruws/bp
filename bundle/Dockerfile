@@ -19,6 +19,9 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+RUN touch /tmp/fake-openssl.cnf
+ENV OPENSSL_CONF /tmp/fake-openssl.cnf
+
 COPY --chown=uws:uws ./utils/*.sh /home/uws/utils/
 
 RUN /home/uws/utils/meteor-build.sh

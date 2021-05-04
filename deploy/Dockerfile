@@ -35,6 +35,9 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
+RUN touch /tmp/fake-openssl.cnf
+ENV OPENSSL_CONF /tmp/fake-openssl.cnf
+
 WORKDIR /opt/app/bundle
 
 RUN timeout -k20 -s15 10 node main.js || true
