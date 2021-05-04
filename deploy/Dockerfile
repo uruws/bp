@@ -29,6 +29,8 @@ COPY --from=0 /opt/app/bundle/ /opt/app/bundle/
 
 COPY --from=0 /usr/local/bin/node /usr/local/bin/node
 
+COPY --chown=uws:uws ./meteor-start.sh /usr/local/bin/meteor-start.sh
+
 USER uws:uws
 WORKDIR /home/uws
 
@@ -42,4 +44,4 @@ WORKDIR /opt/app/bundle
 
 RUN timeout -k20 -s15 10 node main.js || true
 
-ENTRYPOINT exec node main.js
+ENTRYPOINT exec /usr/local/bin/meteor-start.sh
