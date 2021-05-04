@@ -34,7 +34,7 @@ COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
 
 RUN meteor npm install
 
-RUN meteor build --server-only --directory /opt/app
+RUN meteor build /opt/app --directory --server-only
 
 WORKDIR /opt/app/bundle/programs/server
 
