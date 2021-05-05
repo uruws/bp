@@ -1,12 +1,18 @@
 #!/bin/sh
+
+echo "--- DEBUG start"
+
+if test -n "${DISABLE_JOBS}"; then
+	export DISABLE_JOBS="${DISABLE_JOBS}"
+	echo "DISABLE_JOBS=${DISABLE_JOBS}"
+fi
+
 set -eu
 
 cd /opt/app/bundle
 
 # phantomjs workaround
 export OPENSSL_CONF=/tmp/fake-openssl.cnf
-
-echo "--- DEBUG start"
 
 echo "--- user"
 id -a
@@ -33,7 +39,6 @@ echo "--- INFO start"
 
 echo "ROOT_URL=${ROOT_URL}"
 echo "PORT=${PORT}"
-echo "DISABLE_JOBS=${DISABLE_JOBS}"
 
 echo "--- INFO end"
 
