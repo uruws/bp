@@ -25,11 +25,16 @@ if ! test -s ${appenv}; then
 fi
 ls -lhL ${appenv}
 
+echo "--- DEBUG end"
+
+. ${appenv}
+
+echo "--- INFO start"
+
 echo "ROOT_URL=${ROOT_URL}"
 echo "PORT=${PORT}"
 echo "DISABLE_JOBS=${DISABLE_JOBS}"
 
-echo "--- DEBUG end"
+echo "--- INFO end"
 
-. ${appenv}
 exec node main.js
