@@ -1,3 +1,5 @@
+APP_SRC ?= src
+
 .PHONY: default
 default: all
 
@@ -18,15 +20,15 @@ bootstrap: docker/base docker/meteor
 
 .PHONY: install
 install:
-	@./install/build.sh
+	@APP_SRC=$(APP_SRC) ./install/build.sh
 
 .PHONY: bundle
 bundle: install
-	@./bundle/build.sh
+	@APP_SRC=$(APP_SRC) ./bundle/build.sh
 
 .PHONY: deploy
 deploy: bundle
-	@./deploy/build.sh
+	@APP_SRC=$(APP_SRC) ./deploy/build.sh
 
 .PHONY: app/src
 app/src:
@@ -34,7 +36,8 @@ app/src:
 
 .PHONY: app
 app: app/src
-	@./app/build.sh
+	@APP_SRC=$(APP_SRC) ./app/build.sh
+	@$(MAKE) deploy APP_SRC=$(APP_SRC)
 
 .PHONY: app/beta
 app/beta:
@@ -42,4 +45,4 @@ app/beta:
 
 .PHONY: beta
 beta: app/beta
-	@./beta/build.sh
+	@$(MAKE) app APP_SRC=beta

@@ -1,7 +1,9 @@
-FROM uws/app:bundle-meteor-1.10.2
+ARG APP_TAG
+
+FROM uws/app:bundle-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.05.03"
+LABEL version="20210511"
 
 USER root:root
 WORKDIR /root
@@ -14,7 +16,7 @@ RUN install -v -m 0755 /home/uws/app/.meteor/local/dev_bundle/bin/node /usr/loca
 FROM uws/app:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.05.03"
+LABEL version="20210511"
 
 USER root:root
 WORKDIR /root

@@ -1,7 +1,9 @@
-FROM uws/app:source-meteor-1.10.2
+ARG APP_TAG
+
+FROM uws/app:${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.05.03"
+LABEL version="20210511"
 
 WORKDIR ${HOME}/app
 

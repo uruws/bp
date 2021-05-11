@@ -1,11 +1,13 @@
 FROM uws/app:meteor-1.10.2
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.05.03"
+LABEL version="20210511"
 
 RUN install -v -d -m 0750 ${HOME}/app/
 
-COPY --chown=uws:uws ./src/ ${HOME}/app/
+ARG APP_SRC=src
+
+COPY --chown=uws:uws ./${APP_SRC}/ ${HOME}/app/
 
 COPY --chown=uws:uws ./vendor/node_modules/ ${HOME}/app/node_modules/
 COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/app/
