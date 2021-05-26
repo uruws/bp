@@ -1,4 +1,5 @@
 APP_SRC ?= src
+BUILD_TAG != git describe --always
 APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
 
 .PHONY: default
@@ -47,7 +48,7 @@ app/beta:
 .PHONY: publish-app
 publish-app:
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 .PHONY: beta
 beta: app/beta
