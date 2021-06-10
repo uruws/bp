@@ -6,7 +6,6 @@ APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
 default: all
 
 .PHONY: all
-#~ all: docker/base docker/meteor app/src app install bundle deploy
 all: bootstrap app beta
 
 .PHONY: docker/base
