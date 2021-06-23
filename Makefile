@@ -1,6 +1,6 @@
 APP_SRC ?= src
 BUILD_TAG != git describe --always
-APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
+APP_BUILD_TAG != git -C app/$(APP_SRC) describe --tags | cut -d/ -f2
 
 .PHONY: default
 default: all
