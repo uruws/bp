@@ -31,12 +31,8 @@ bundle: install
 deploy: bundle
 	@APP_SRC=$(APP_SRC) ./deploy/build.sh
 
-.PHONY: app/src
-app/src:
-	@git submodule update --init app/src
-
 .PHONY: app
-app: app/src
+app:
 	@APP_SRC=$(APP_SRC) ./app/build.sh
 	@$(MAKE) deploy APP_SRC=$(APP_SRC)
 
