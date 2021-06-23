@@ -1,6 +1,3 @@
-[submodule "app"]
-	path = app/src
-	url = git@github.com:TalkingPts/App.git
 [submodule "beta"]
 	path = app/beta
 	url = git@github.com:TalkingPts/App.git
