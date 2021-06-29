@@ -1,4 +1,0 @@
-[submodule "beta"]
-	path = app/beta
-	url = git@github.com:TalkingPts/App.git
-	branch = beta
