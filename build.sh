@@ -7,7 +7,7 @@ cd /srv/deploy/Buildpack
 git -C app/${app} fetch --tags --prune --prune-tags
 git -C app/${app} checkout ${version}
 target='app'
-if test "X${app}" != 'src'; then
+if test "X${app}" != 'Xsrc'; then
 	target=${app}
 fi
 make ${target}
