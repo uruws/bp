@@ -4,8 +4,8 @@ version=${1:?'build version?'}
 app=${2:-'src'}
 t_start=$(date '+%s')
 cd /srv/deploy/Buildpack
-git -C app/${app} fetch --tags --prune --prune-tags
-git -C app/${app} checkout ${version}
+git -C app/src fetch --tags --prune --prune-tags
+git -C app/src checkout ${version}
 target='app'
 if test "X${app}" != 'Xsrc'; then
 	target=${app}
