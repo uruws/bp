@@ -49,4 +49,4 @@ beta:
 .PHONY: publish-beta
 publish-beta:
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-beta-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
