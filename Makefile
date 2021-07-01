@@ -1,6 +1,5 @@
-APP_SRC ?= src
 BUILD_TAG != git describe --always
-APP_BUILD_TAG != git -C app/$(APP_SRC) describe --tags | cut -d/ -f2
+APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
 
 .PHONY: default
 default: all
@@ -21,20 +20,20 @@ bootstrap: docker/base docker/meteor
 
 .PHONY: install
 install:
-	@APP_SRC=$(APP_SRC) ./install/build.sh
+	@./install/build.sh $(APP_BUILD_TAG)
 
 .PHONY: bundle
 bundle: install
-	@APP_SRC=$(APP_SRC) ./bundle/build.sh
+	@./bundle/build.sh $(APP_BUILD_TAG)
 
 .PHONY: deploy
 deploy: bundle
-	@APP_SRC=$(APP_SRC) ./deploy/build.sh
+	@./deploy/build.sh $(APP_BUILD_TAG)
 
 .PHONY: app
 app:
-	@APP_SRC=$(APP_SRC) ./app/build.sh
-	@$(MAKE) deploy APP_SRC=$(APP_SRC)
+	@./app/build.sh
+	@$(MAKE) deploy
 
 .PHONY: publish-app
 publish-app:
@@ -45,7 +44,7 @@ publish-app:
 
 .PHONY: beta
 beta:
-	@$(MAKE) app APP_SRC=beta
+	@$(MAKE) app
 
 .PHONY: publish-beta
 publish-beta:

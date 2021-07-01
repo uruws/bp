@@ -5,9 +5,7 @@ LABEL version="20210511"
 
 RUN install -v -d -m 0750 ${HOME}/app/
 
-ARG APP_SRC=src
-
-COPY --chown=uws:uws ./${APP_SRC}/ ${HOME}/app/
+COPY --chown=uws:uws ./src/ ${HOME}/app/
 COPY --chown=uws:uws ./certs ${HOME}/app/private/
 
 COPY --chown=uws:uws ./vendor/node_modules/ ${HOME}/app/node_modules/
