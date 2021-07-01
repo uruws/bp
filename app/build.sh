@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
-app_tag=$(git -C app/src describe --tags | cut -d/ -f2)
+app_tag=${1:?'build tag?'}
 exec docker build --rm -t uws/app:${app_tag} ./app
