@@ -33,6 +33,7 @@ deploy: bundle
 .PHONY: app
 app:
 	@./app/build.sh $(APP_BUILD_TAG)
+	@./app/test.sh $(APP_BUILD_TAG)
 	@$(MAKE) deploy
 
 .PHONY: publish-app
