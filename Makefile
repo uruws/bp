@@ -1,5 +1,6 @@
 BUILD_TAG != git describe --always
 APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
+TEST_FLAGS ?=
 
 .PHONY: default
 default: all
@@ -33,7 +34,7 @@ deploy: bundle
 .PHONY: app
 app:
 	@./app/build.sh $(APP_BUILD_TAG)
-	@./app/test.sh $(APP_BUILD_TAG)
+	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_BUILD_TAG)
 	@$(MAKE) deploy
 
 .PHONY: publish-app
