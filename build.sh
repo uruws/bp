@@ -12,6 +12,12 @@ fi
 
 export TEST_FLAGS="$@"
 
+case ${app} in
+	--*)
+		app='src'
+	;;
+esac
+
 target='app'
 if test "X${app}" != 'Xsrc'; then
 	target=${app}
