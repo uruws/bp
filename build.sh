@@ -4,7 +4,7 @@ set -eu
 version=${1:?'build version?'}
 app=${2:-'NOSET'}
 
-if test "X${app}" = 'NOSET'; then
+if test "X${app}" = 'XNOSET'; then
 	app='src'
 else
 	shift
