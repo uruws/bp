@@ -1,7 +1,7 @@
-FROM uws/app:base
+FROM uws/buildpack:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="2021.05.03"
+LABEL version="20210708"
 
 RUN curl -sS https://install.meteor.com/?release=1.10.2 | /bin/sh
 

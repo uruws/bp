@@ -12,12 +12,12 @@ all: bootstrap app beta
 docker/base:
 	@./docker/base/build.sh
 
-.PHONY: docker/meteor
-docker/meteor:
-	@./docker/meteor/build.sh
+.PHONY: docker/meteor-1.10.2
+docker/meteor-1.10.2:
+	@./docker/meteor-1.10.2/build.sh
 
 .PHONY: bootstrap
-bootstrap: docker/base docker/meteor
+bootstrap: docker/base docker/meteor-1.10.2
 
 .PHONY: install
 install:
