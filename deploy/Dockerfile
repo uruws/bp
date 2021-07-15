@@ -3,7 +3,7 @@ ARG APP_TAG
 FROM uws/app:bundle-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210511"
+LABEL version="20210715"
 
 USER root:root
 WORKDIR /root
@@ -13,10 +13,10 @@ ENV HOME /root
 
 RUN install -v -m 0755 /home/uws/app/.meteor/local/dev_bundle/bin/node /usr/local/bin/node
 
-FROM uws/app:base
+FROM uws/buildpack:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210511"
+LABEL version="20210715"
 
 USER root:root
 WORKDIR /root
