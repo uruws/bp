@@ -1,5 +1,6 @@
 BUILD_TAG != git describe --always
-APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
+#APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
+APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=
 
 .PHONY: default
@@ -13,7 +14,7 @@ docker/base:
 	@./docker/base/build.sh
 
 .PHONY: docker/meteor-1.10.2
-docker/meteor-1.10.2:
+docker/meteor-1.10.2: docker/base
 	@./docker/meteor-1.10.2/build.sh
 
 .PHONY: bootstrap
@@ -32,7 +33,7 @@ deploy: bundle
 	@./deploy/build.sh $(APP_BUILD_TAG)
 
 .PHONY: app
-app:
+app: docker/meteor-1.10.2
 	@./app/build.sh $(APP_BUILD_TAG)
 	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_BUILD_TAG)
 	@$(MAKE) deploy

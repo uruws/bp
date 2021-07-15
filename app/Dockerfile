@@ -1,7 +1,7 @@
-FROM uws/app:meteor-1.10.2
+FROM uws/meteor:1.10.2
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210511"
+LABEL version="20210715"
 
 RUN install -v -d -m 0750 ${HOME}/app/
 

@@ -3,7 +3,7 @@
 import sys
 
 from argparse import ArgumentParser
-from os import chdir, path, system
+from os import chdir, path, system, environ
 from time import time
 
 class cmdError(Exception):
@@ -20,6 +20,12 @@ def gitCheckout(version):
 	rc = system(cmd)
 	if rc != 0:
 		raise cmdError(rc)
+
+def appBuildTag(version):
+	try:
+		return version.split('/')[1]
+	except IndexError:
+		return version
 
 def build(target):
 	cmd = "make %s" % target
@@ -56,6 +62,7 @@ def main():
 	try:
 		gitFetch(args.src)
 		gitCheckout(args.version)
+		environ['APP_BUILD_TAG'] = appBuildTag(args.version)
 		build(args.target)
 		publish(args.target)
 	except cmdError as err:
