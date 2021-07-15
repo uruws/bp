@@ -1,5 +1,4 @@
 BUILD_TAG != git describe --always
-#APP_BUILD_TAG != git -C app/src describe --tags | cut -d/ -f2
 APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=
 
@@ -16,6 +15,10 @@ docker/base:
 .PHONY: docker/meteor-1.10.2
 docker/meteor-1.10.2: docker/base
 	@./docker/meteor-1.10.2/build.sh
+
+.PHONY: docker/meteor-2.2
+docker/meteor-2.2: docker/base
+	@./docker/meteor-2.2/build.sh
 
 .PHONY: bootstrap
 bootstrap: docker/base docker/meteor-1.10.2
