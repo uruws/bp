@@ -41,13 +41,13 @@ def publish(target):
 
 def main():
 	flags = ArgumentParser(description = 'uws meteor apps build tools')
-	flags.add_argument('version', metavar = 'X.Y.Z')
 	flags.add_argument('--src', metavar = 'app', default = 'app/src',
 		help = 'source app')
 	flags.add_argument('--target', metavar = 'app', default = 'app',
 		help = 'target app')
-	flags.add_argument('--test-flags', metavar = 'flag', default = '',
-		help = 'test flags')
+	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
+	flags.add_argument('test_flags', metavar = 'test flags', default = '',
+		help = 'test flags', nargs = '*')
 
 	args = flags.parse_args()
 
@@ -63,6 +63,7 @@ def main():
 		gitFetch(args.src)
 		gitCheckout(args.version)
 		environ['APP_BUILD_TAG'] = appBuildTag(args.version)
+		environ['TEST_FLAGS'] = ' '.join(args.test_flags)
 		build(args.target)
 		publish(args.target)
 	except cmdError as err:
