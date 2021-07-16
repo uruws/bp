@@ -27,8 +27,14 @@ def appBuildTag(version):
 	except IndexError:
 		return version
 
-def build(target):
+def make(target):
 	cmd = "make %s" % target
+	rc = system(cmd)
+	if rc != 0:
+		raise cmdError(rc)
+
+def build():
+	cmd = "make deploy"
 	rc = system(cmd)
 	if rc != 0:
 		raise cmdError(rc)
@@ -41,7 +47,7 @@ def publish(target):
 
 def main():
 	flags = ArgumentParser(description = 'uws meteor apps build tools')
-	flags.add_argument('--src', metavar = 'app', default = 'app/src',
+	flags.add_argument('--src', metavar = 'app/src', default = 'app/src',
 		help = 'source app')
 	flags.add_argument('--target', metavar = 'app', default = 'app',
 		help = 'target app')
@@ -62,16 +68,30 @@ def main():
 	try:
 		gitFetch(args.src)
 		gitCheckout(args.version)
+	except cmdError as err:
+		print('Fetch', args.target, 'version', args.version, 'failed!', file = sys.stderr)
+		return err.args[0]
+
+	try:
+		environ['APP_NAME'] = args.target
 		environ['APP_BUILD_TAG'] = appBuildTag(args.version)
 		environ['TEST_FLAGS'] = ' '.join(args.test_flags)
-		build(args.target)
-		publish(args.target)
+		make(args.target)
+		build()
 	except cmdError as err:
 		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
+		return err.args[0]
+
+	try:
+		publish(args.target)
+	except cmdError as err:
+		print('Publish', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return err.args[0]
 
 	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0
 
 if __name__ == '__main__':
+	sys.stdout.reconfigure(line_buffering = False)
+	sys.stderr.reconfigure(line_buffering = False)
 	sys.exit(main())

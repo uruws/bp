@@ -9,7 +9,7 @@ fi
 
 set -eu
 
-cd /opt/app/bundle
+#cd /opt/${APP}/bundle
 
 # phantomjs workaround
 export OPENSSL_CONF=/tmp/fake-openssl.cnf
