@@ -26,10 +26,10 @@ docker/meteor-1.10.2: docker/base
 .PHONY: check-1.10.2
 check-1.10.2: docker/meteor-1.10.2
 	@echo '***'
-	@echo '*** Make: check meteor-1.10.2'
+	@echo '*** Make: meteor-check 1.10.2'
 	@echo '***'
-	@./docker/meteor-1.10.2/check/build.sh check meteor-1.10.2
-	@./check.sh check meteor-1.10.2
+	@./docker/meteor-1.10.2/check/build.sh
+	@./check.sh 1.10.2
 
 .PHONY: docker/meteor-2.2
 docker/meteor-2.2: docker/base
@@ -37,6 +37,14 @@ docker/meteor-2.2: docker/base
 	@echo '*** Build: meteor 2.2'
 	@echo '***'
 	@./docker/meteor-2.2/build.sh
+
+.PHONY: check-2.2
+check-2.2: docker/meteor-2.2
+	@echo '***'
+	@echo '*** Make: meteor-check 2.2'
+	@echo '***'
+	@./docker/meteor-2.2/check/build.sh
+	@./check.sh 2.2
 
 .PHONY: check
 check:
