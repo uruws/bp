@@ -23,6 +23,14 @@ docker/meteor-1.10.2: docker/base
 	@echo '***'
 	@./docker/meteor-1.10.2/build.sh
 
+.PHONY: check-1.10.2
+check-1.10.2: docker/meteor-1.10.2
+	@echo '***'
+	@echo '*** Make: check meteor-1.10.2'
+	@echo '***'
+	@./docker/meteor-1.10.2/check/build.sh check meteor-1.10.2
+	@./check.sh check meteor-1.10.2
+
 .PHONY: docker/meteor-2.2
 docker/meteor-2.2: docker/base
 	@echo '***'
@@ -59,11 +67,11 @@ app: docker/meteor-1.10.2
 	@echo '***'
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@./app/build.sh $(APP_BUILD_TAG)
+	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG)
 	@echo '***'
 	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_BUILD_TAG)
+	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_NAME) $(APP_BUILD_TAG)
 
 .PHONY: publish-app
 publish-app:

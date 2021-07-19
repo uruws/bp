@@ -70,7 +70,7 @@ def main():
 		gitCheckout(args.version)
 	except cmdError as err:
 		print('Fetch', args.target, 'version', args.version, 'failed!', file = sys.stderr)
-		return err.args[0]
+		return 2
 
 	try:
 		environ['APP_NAME'] = args.target
@@ -80,13 +80,13 @@ def main():
 		build()
 	except cmdError as err:
 		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
-		return err.args[0]
+		return 3
 
 	try:
 		publish(args.target)
 	except cmdError as err:
 		print('Publish', args.target, 'version', args.version, 'failed!', file = sys.stderr)
-		return err.args[0]
+		return 4
 
 	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0

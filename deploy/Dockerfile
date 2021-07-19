@@ -15,6 +15,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
+RUN rm -vf /usr/local/bin/node
 RUN install -v -m 0755 /home/uws/${APP}/.meteor/local/dev_bundle/bin/node /usr/local/bin/node
 
 FROM uws/buildpack:base

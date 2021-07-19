@@ -1,4 +1,6 @@
 #!/bin/sh
-exec docker run -it --rm --name uws-app-devel \
-	--hostname app-devel.uws.local -u uws \
-	uws/app:source-meteor-1.10.2 $@
+app=${1:?'app name?'}
+app_tag=${2:?'build tag?'}
+exec docker run -it --rm --name uws-${app}-devel \
+	--hostname ${app}-devel.uws.local -u uws \
+	uws/${app}:${app_tag} $@
