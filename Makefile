@@ -38,6 +38,10 @@ docker/meteor-2.2: docker/base
 	@echo '***'
 	@./docker/meteor-2.2/build.sh
 
+.PHONY: check
+check:
+	@$(MAKE) check-1.10.2
+
 .PHONY: bootstrap
 bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
 
