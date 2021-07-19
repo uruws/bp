@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-cd ${HOME}/app
+cd ${HOME}/${APP}
 if test -s ./test.sh; then
 	exec /bin/sh -eu ./test.sh
 fi

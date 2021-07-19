@@ -8,5 +8,6 @@ case ${test_flags} in
 	;;
 esac
 set -u
-app_tag=${1:?'build tag?'}
-exec docker run -it --rm -u uws uws/app:${app_tag} /usr/local/bin/meteor-test.sh
+app=${1:?'app name?'}
+app_tag=${2:?'build tag?'}
+exec docker run -it --rm -u uws uws/${app}:${app_tag} /usr/local/bin/meteor-test.sh

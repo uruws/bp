@@ -1,10 +1,12 @@
 #!/bin/sh
-mkdir -vp ${PWD}/build/npm ${PWD}/build/tmp ${PWD}/build/local
-chmod -v 1777 ${PWD}/build/npm ${PWD}/build/tmp ${PWD}/build/local
-exec docker run -it --rm --name uws-app-devel \
-	--hostname app-devel.uws.local -u uws \
-	-v ${PWD}/build/npm:/home/uws/.npm \
-	-v ${PWD}/build/local:/home/uws/app/.meteor/local \
-	-v ${PWD}/build/tmp:/tmp \
-	-v ${PWD}/app/vendor/node_modules:/home/uws/app/node_modules \
-	uws/app:bundle-meteor-1.10.2 $@
+app=${1:?'app name?'}
+app_tag=${2:?'build tag?'}
+mkdir -vp ${PWD}/build/${app}/npm ${PWD}/build/${app}/tmp ${PWD}/build/${app}/local
+chmod -v 1777 ${PWD}/build/${app}/npm ${PWD}/build/${app}/tmp ${PWD}/build/${app}/local
+exec docker run -it --rm --name uws-${app}-devel \
+	--hostname ${app}-devel.uws.local -u uws \
+	-v ${PWD}/build/${app}/npm:/home/uws/.npm \
+	-v ${PWD}/build/${app}/local:/home/uws/${app}/.meteor/local \
+	-v ${PWD}/build/${app}/tmp:/tmp \
+	-v ${PWD}/${app}/vendor/node_modules:/home/uws/${app}/node_modules \
+	uws/${app}:bundle-${app_tag} $@
