@@ -9,12 +9,24 @@ default: all
 .PHONY: all
 all: bootstrap app beta
 
+.PHONY: bootstrap
+bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+
+.PHONY: check
+check:
+	@$(MAKE) check-1.10.2
+	@$(MAKE) check-2.2
+
+# Base image
+
 .PHONY: docker/base
 docker/base:
 	@echo '***'
 	@echo '*** Build: base image'
 	@echo '***'
 	@./docker/base/build.sh
+
+# Meteor 1.10.2
 
 .PHONY: docker/meteor-1.10.2
 docker/meteor-1.10.2: docker/base
@@ -29,7 +41,9 @@ check-1.10.2: docker/meteor-1.10.2
 	@echo '*** Make: meteor-check 1.10.2'
 	@echo '***'
 	@./docker/meteor-1.10.2/check/build.sh
-	@./check.sh 1.10.2
+	@./test.sh meteor-check 1.10.2
+
+# Meteor 2.2
 
 .PHONY: docker/meteor-2.2
 docker/meteor-2.2: docker/base
@@ -44,15 +58,9 @@ check-2.2: docker/meteor-2.2
 	@echo '*** Make: meteor-check 2.2'
 	@echo '***'
 	@./docker/meteor-2.2/check/build.sh
-	@./check.sh 2.2
+	@./test.sh meteor-check 2.2
 
-.PHONY: check
-check:
-	@$(MAKE) check-1.10.2
-	@$(MAKE) check-2.2
-
-.PHONY: bootstrap
-bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+# Deploy and intermediate images
 
 .PHONY: install
 install:
@@ -75,6 +83,8 @@ deploy: bundle
 	@echo '***'
 	./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG)
 
+# App
+
 .PHONY: app
 app: docker/meteor-1.10.2
 	@echo '***'
@@ -84,7 +94,7 @@ app: docker/meteor-1.10.2
 	@echo '***'
 	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_NAME) $(APP_BUILD_TAG)
+	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG)
 
 .PHONY: publish-app
 publish-app:
@@ -95,6 +105,8 @@ publish-app:
 	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 	@/srv/uws/deploy/host/ecr-login.sh us-west-1
 	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+
+# Beta
 
 .PHONY: beta
 beta:

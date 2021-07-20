@@ -13,5 +13,3 @@ COPY --chown=uws:uws ./certs ${HOME}/${APP}/private/
 
 COPY --chown=uws:uws ./vendor/node_modules/ ${HOME}/${APP}/node_modules/
 COPY --chown=uws:uws ./vendor/package-lock.json ${HOME}/${APP}/
-
-COPY --chown=uws:uws ./meteor-test.sh /usr/local/bin/meteor-test.sh
