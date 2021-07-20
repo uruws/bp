@@ -11,12 +11,16 @@ class cmdError(Exception):
 	pass
 
 def gitFetch(src):
+	if environ.get('BUILDPACK_TESTING', default = '0') == '1':
+		return None
 	cmd = "git -C %s fetch --tags --prune --prune-tags" % src
 	rc = system(cmd)
 	if rc != 0:
 		raise cmdError(rc)
 
 def gitCheckout(src, version):
+	if environ.get('BUILDPACK_TESTING', default = '0') == '1':
+		return None
 	cmd = "git -C %s checkout %s" % (src, version)
 	rc = system(cmd)
 	if rc != 0:

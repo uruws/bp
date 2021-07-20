@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu
-exec docker build --rm -t uws/meteor-check:1.10.2 \
-	--build-arg APP=star \
+app_tag=${1:?'build tag?'}
+exec docker build --rm -t uws/meteor-check:${app_tag} \
+	--build-arg APP=meteor-check \
 	-f ./docker/meteor-1.10.2/check/Dockerfile \
 	./docker/meteor-1.10.2
