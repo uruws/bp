@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210716"
+LABEL version="20210720"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-ADD ./utils/apt-*.sh /root/bin/
+COPY ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 RUN /root/bin/apt-distupgrade.sh
@@ -25,6 +25,9 @@ ENV UWS_GID 3000
 RUN groupadd -g ${UWS_GID} uws \
 	&& useradd -d /home/uws -m -c 'uws' -g ${UWS_GID} -u ${UWS_UID} uws \
 	&& chmod -v 0750 /home/uws
+
+COPY ./meteor-test.sh /usr/local/bin/meteor-test.sh
+RUN chmod -v 0755 /usr/local/bin/meteor-test.sh
 
 USER uws:uws
 WORKDIR /home/uws

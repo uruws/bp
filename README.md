@@ -1,3 +1,3 @@
 # Buildpack
 
-App build tools.
+Meteor apps build tools.

@@ -21,7 +21,7 @@ RUN install -v -m 0755 /home/uws/${APP}/.meteor/local/dev_bundle/bin/node /usr/l
 FROM uws/buildpack:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210716"
+LABEL version="20210720"
 
 ARG APP_NAME2
 ENV APP ${APP_NAME2}
@@ -41,14 +41,16 @@ COPY --from=0 /usr/local/bin/node /usr/local/bin/node
 
 COPY --chown=uws:uws ./meteor-start.sh /usr/local/bin/meteor-start.sh
 
+RUN rm -vf /usr/local/bin/meteor-test.sh
+
 USER uws:uws
 WORKDIR /home/uws
 
 ENV USER uws
 ENV HOME /home/uws
 
-RUN touch /tmp/fake-openssl.cnf
-ENV OPENSSL_CONF /tmp/fake-openssl.cnf
+RUN touch /var/tmp/fake-openssl.cnf
+ENV OPENSSL_CONF /var/tmp/fake-openssl.cnf
 
 WORKDIR /opt/${APP}/bundle
 

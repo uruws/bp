@@ -4,28 +4,38 @@ import sys
 
 from argparse import ArgumentParser
 from os import chdir, path, system, environ
+from subprocess import getstatusoutput
 from time import time
 
 class cmdError(Exception):
 	pass
 
 def gitFetch(src):
+	if environ.get('BUILDPACK_TESTING', default = '0') == '1':
+		return None
 	cmd = "git -C %s fetch --tags --prune --prune-tags" % src
 	rc = system(cmd)
 	if rc != 0:
 		raise cmdError(rc)
 
-def gitCheckout(version):
-	cmd = "git -C app/src checkout %s" % version
+def gitCheckout(src, version):
+	if environ.get('BUILDPACK_TESTING', default = '0') == '1':
+		return None
+	cmd = "git -C %s checkout %s" % (src, version)
 	rc = system(cmd)
 	if rc != 0:
 		raise cmdError(rc)
 
-def appBuildTag(version):
+def appBuildTag(src):
+	cmd = "git -C %s describe --tags --always" % src
+	rc, out = getstatusoutput(cmd)
+	if rc != 0:
+		print(out, file = sys.stderr)
+		raise cmdError(rc)
 	try:
-		return version.split('/')[1]
+		return out.split('/')[1]
 	except IndexError:
-		return version
+		return out
 
 def make(target):
 	cmd = "make %s" % target
@@ -67,14 +77,14 @@ def main():
 	t_start = time()
 	try:
 		gitFetch(args.src)
-		gitCheckout(args.version)
+		gitCheckout(args.src, args.version)
 	except cmdError as err:
 		print('Fetch', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return 2
 
 	try:
 		environ['APP_NAME'] = args.target
-		environ['APP_BUILD_TAG'] = appBuildTag(args.version)
+		environ['APP_BUILD_TAG'] = appBuildTag(args.src)
 		environ['TEST_FLAGS'] = ' '.join(args.test_flags)
 		make(args.target)
 		build()

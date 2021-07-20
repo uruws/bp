@@ -6,7 +6,7 @@ app=${1:?'app name?'}
 export METEOR_DISABLE_OPTIMISTIC_CACHING=1
 
 # https://github.com/kelaberetiv/TagUI/issues/787
-export OPENSSL_CONF=/tmp/fake-openssl.cnf
+export OPENSSL_CONF=/var/tmp/fake-openssl.cnf
 
 cd ${HOME}/${app}
 

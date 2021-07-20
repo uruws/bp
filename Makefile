@@ -1,4 +1,4 @@
-BUILD_TAG != git describe --always
+BUILD_TAG != git describe --tags --always
 APP_NAME ?= NOTSET
 APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=
@@ -9,12 +9,34 @@ default: all
 .PHONY: all
 all: bootstrap app beta
 
+.PHONY: bootstrap
+bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+
+# Internal checks
+
+.PHONY: check
+check:
+	@./check.sh
+
+.PHONY: meteor-check
+meteor-check:
+	@$(MAKE) check-1.10.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
+	@$(MAKE) check-2.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
+
+.PHONY: publish-meteor-check
+publish-meteor-check:
+	@echo 'publish-meteor-check'
+
+# Base image
+
 .PHONY: docker/base
 docker/base:
 	@echo '***'
 	@echo '*** Build: base image'
 	@echo '***'
 	@./docker/base/build.sh
+
+# Meteor 1.10.2
 
 .PHONY: docker/meteor-1.10.2
 docker/meteor-1.10.2: docker/base
@@ -26,10 +48,12 @@ docker/meteor-1.10.2: docker/base
 .PHONY: check-1.10.2
 check-1.10.2: docker/meteor-1.10.2
 	@echo '***'
-	@echo '*** Make: meteor-check 1.10.2'
+	@echo '*** Make: meteor-check 1.10.2 $(APP_BUILD_TAG)'
 	@echo '***'
-	@./docker/meteor-1.10.2/check/build.sh
-	@./check.sh 1.10.2
+	@./docker/meteor-1.10.2/check/build.sh $(APP_BUILD_TAG)
+	@./test.sh meteor-check $(APP_BUILD_TAG)
+
+# Meteor 2.2
 
 .PHONY: docker/meteor-2.2
 docker/meteor-2.2: docker/base
@@ -41,18 +65,12 @@ docker/meteor-2.2: docker/base
 .PHONY: check-2.2
 check-2.2: docker/meteor-2.2
 	@echo '***'
-	@echo '*** Make: meteor-check 2.2'
+	@echo '*** Make: meteor-check 2.2 $(APP_BUILD_TAG)'
 	@echo '***'
-	@./docker/meteor-2.2/check/build.sh
-	@./check.sh 2.2
+	@./docker/meteor-2.2/check/build.sh $(APP_BUILD_TAG)
+	@./test.sh meteor-check $(APP_BUILD_TAG)
 
-.PHONY: check
-check:
-	@$(MAKE) check-1.10.2
-	@$(MAKE) check-2.2
-
-.PHONY: bootstrap
-bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+# Deploy and intermediate images
 
 .PHONY: install
 install:
@@ -75,6 +93,8 @@ deploy: bundle
 	@echo '***'
 	./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG)
 
+# App
+
 .PHONY: app
 app: docker/meteor-1.10.2
 	@echo '***'
@@ -84,7 +104,7 @@ app: docker/meteor-1.10.2
 	@echo '***'
 	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@TEST_FLAGS=$(TEST_FLAGS) ./app/test.sh $(APP_NAME) $(APP_BUILD_TAG)
+	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG)
 
 .PHONY: publish-app
 publish-app:
@@ -96,6 +116,8 @@ publish-app:
 	@/srv/uws/deploy/host/ecr-login.sh us-west-1
 	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
+# Beta
+
 .PHONY: beta
 beta:
 	@$(MAKE) app
@@ -106,4 +128,21 @@ publish-beta:
 	@echo '*** Publish: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/beta:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
+
+# Crowdsourcing
+
+.PHONY: crowdsourcing
+crowdsourcing: docker/meteor-2.2
+	@echo '***'
+	@echo '*** Make: crowdsourcing $(APP_BUILD_TAG)'
+	@echo '***'
+	@./cs/build.sh $(APP_BUILD_TAG)
+
+.PHONY: publish-crowdsourcing
+publish-crowdsourcing:
+	@echo '***'
+	@echo '*** Publish: crowdsourcing $(APP_BUILD_TAG)'
+	@echo '***'
+	@/srv/uws/deploy/host/ecr-login.sh us-east-2
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)

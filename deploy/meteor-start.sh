@@ -12,7 +12,7 @@ set -eu
 #cd /opt/${APP}/bundle
 
 # phantomjs workaround
-export OPENSSL_CONF=/tmp/fake-openssl.cnf
+export OPENSSL_CONF=/var/tmp/fake-openssl.cnf
 
 echo "--- user"
 id -a
