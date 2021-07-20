@@ -1,4 +1,4 @@
-BUILD_TAG != git describe --always
+BUILD_TAG != git describe --tags --always
 APP_NAME ?= NOTSET
 APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=

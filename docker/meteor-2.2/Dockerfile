@@ -1,7 +1,7 @@
 FROM uws/buildpack:base
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210716"
+LABEL version="20210720"
 
 USER root:root
 WORKDIR /root
@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh curl procps
+RUN /root/bin/apt-install.sh curl procps git
 
 USER uws:uws
 WORKDIR /home/uws
