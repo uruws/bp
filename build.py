@@ -7,6 +7,12 @@ from os import chdir, path, system, environ
 from subprocess import getstatusoutput
 from time import time
 
+app = {
+	'app': {'src': 'app/src'},
+	'beta': {'src': 'app/src'},
+	'cs': {'src': 'cs/src', 'target': 'crowdsourcing'},
+}
+
 class cmdError(Exception):
 	pass
 
@@ -56,12 +62,11 @@ def publish(target):
 		raise cmdError(rc)
 
 def main():
-	flags = ArgumentParser(description = 'uws meteor apps build tools')
-	flags.add_argument('--src', metavar = 'app/src', default = 'app/src',
-		help = 'source app')
+	flags = ArgumentParser(description = 'meteor buildpack')
 	flags.add_argument('--target', metavar = 'app', default = 'app',
-		help = 'target app')
-	flags.add_argument('version', metavar = 'X.Y.Z', help = 'app version/tag')
+		choices = sorted(app.keys()), required = True, help = 'target app')
+	flags.add_argument('--version', metavar = 'X.Y.Z', required = True,
+		help = 'app version/tag')
 	flags.add_argument('test_flags', metavar = 'test flags', default = '',
 		help = 'test flags', nargs = '*')
 
@@ -74,31 +79,34 @@ def main():
 		print("chdir: %s" % err, file = sys.stderr)
 		return 1
 
+	src = app[args.target]['src']
+	target = app[args.target].get('target', args.target)
+
 	t_start = time()
 	try:
-		gitFetch(args.src)
-		gitCheckout(args.src, args.version)
+		gitFetch(src)
+		gitCheckout(src, args.version)
 	except cmdError as err:
-		print('Fetch', args.target, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Fetch', src, 'version', args.version, 'failed!', file = sys.stderr)
 		return 2
 
 	try:
-		environ['APP_NAME'] = args.target
-		environ['APP_BUILD_TAG'] = appBuildTag(args.src)
+		environ['APP_NAME'] = target
+		environ['APP_BUILD_TAG'] = appBuildTag(src)
 		environ['TEST_FLAGS'] = ' '.join(args.test_flags)
-		make(args.target)
+		make(target)
 		build()
 	except cmdError as err:
-		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Build', target, 'version', args.version, 'failed!', file = sys.stderr)
 		return 3
 
 	try:
-		publish(args.target)
+		publish(target)
 	except cmdError as err:
-		print('Publish', args.target, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Publish', target, 'version', args.version, 'failed!', file = sys.stderr)
 		return 4
 
-	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
+	print('Build', target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0
 
 if __name__ == '__main__':
