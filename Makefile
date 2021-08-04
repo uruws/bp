@@ -2,6 +2,8 @@ BUILD_TAG != git describe --tags --always
 APP_NAME ?= NOTSET
 APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=
+LOGS_DIR ?= $(HOME)/logs
+LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(APP_BUILD_TAG).log
 
 .PHONY: default
 default: all
@@ -11,6 +13,11 @@ all: bootstrap app beta
 
 .PHONY: bootstrap
 bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+
+.PHONY: log-init
+log-init:
+	@mkdir -vp `dirname $(LOGF)`
+	@date -R >$(LOGF)
 
 # Internal checks
 
@@ -74,37 +81,37 @@ check-2.2: docker/meteor-2.2
 
 .PHONY: install
 install:
-	@echo '***'
-	@echo '*** NPM install: $(APP_NAME) $(APP_BUILD_TAG)'
-	@echo '***'
-	./install/build.sh $(APP_NAME) $(APP_BUILD_TAG)
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** NPM install: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./install/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: bundle
 bundle: install
-	@echo '***'
-	@echo '*** Meteor bundle: $(APP_NAME) $(APP_BUILD_TAG)'
-	@echo '***'
-	./bundle/build.sh $(APP_NAME) $(APP_BUILD_TAG)
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Meteor bundle: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./bundle/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: deploy
 deploy: bundle
-	@echo '***'
-	@echo '*** Build: $(APP_NAME) $(APP_BUILD_TAG)'
-	@echo '***'
-	./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG)
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Build: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 # App
 
 .PHONY: app
-app: docker/meteor-1.10.2
-	@echo '***'
-	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)'
-	@echo '***'
-	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG)
-	@echo '***'
-	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)'
-	@echo '***'
-	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG)
+app: log-init docker/meteor-1.10.2
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: publish-app
 publish-app:
@@ -133,11 +140,11 @@ publish-beta:
 # Crowdsourcing
 
 .PHONY: crowdsourcing
-crowdsourcing: docker/meteor-2.2
-	@echo '***'
-	@echo '*** Make: crowdsourcing $(APP_BUILD_TAG)'
-	@echo '***'
-	@./cs/build.sh $(APP_BUILD_TAG)
+crowdsourcing: log-init docker/meteor-2.2
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Make: crowdsourcing $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./cs/build.sh $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: publish-crowdsourcing
 publish-crowdsourcing:
