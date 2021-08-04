@@ -16,7 +16,7 @@ bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
 
 .PHONY: log-init
 log-init:
-	@mkdir -vp `dirname $(LOGF)`
+	@mkdir -vp $(LOGS_DIR)
 	@date -R >$(LOGF)
 
 # Internal checks
