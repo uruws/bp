@@ -10,4 +10,4 @@ esac
 set -u
 app=${1:?'app name?'}
 app_tag=${2:?'build tag?'}
-exec docker run -it --rm -u uws uws/${app}:${app_tag} /usr/local/bin/meteor-test.sh
+exec docker run --rm -u uws uws/${app}:${app_tag} /usr/local/bin/meteor-test.sh
