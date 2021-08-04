@@ -34,3 +34,8 @@ RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"
 RUN echo "*** $(meteor --version)" \
 	&& echo "***   Node $(node --version)" \
 	&& echo "***    NPM $(npm --version)"
+
+RUN npm config set color false
+
+ENV NO_COLOR 1
+ENV NODE_DISABLE_COLORS 1
