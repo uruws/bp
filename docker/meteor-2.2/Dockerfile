@@ -1,7 +1,7 @@
-FROM uws/buildpack:base
+FROM uws/buildpack:base-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210720"
+LABEL version="210923"
 
 USER root:root
 WORKDIR /root
