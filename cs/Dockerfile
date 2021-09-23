@@ -1,7 +1,7 @@
 FROM uws/meteor:2.2
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210720"
+LABEL version="210923"
 
 ENV APP crowdsourcing
 
