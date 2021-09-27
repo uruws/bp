@@ -8,5 +8,4 @@ exec docker run -it --rm --name uws-${app}-devel \
 	-v ${PWD}/build/${app}/npm:/home/uws/.npm \
 	-v ${PWD}/build/${app}/local:/home/uws/${app}/.meteor/local \
 	-v ${PWD}/build/${app}/tmp:/tmp \
-	-v ${PWD}/${app}/vendor/node_modules:/home/uws/${app}/node_modules \
 	uws/${app}:bundle-${app_tag} $@
