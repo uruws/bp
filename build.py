@@ -9,7 +9,7 @@ from time import time
 
 app = {
 	'app': {'src': 'app/src'},
-	'beta': {'src': 'app/src'},
+	'beta': {'src': 'beta/src'},
 	'cs': {'src': 'cs/src', 'target': 'crowdsourcing'},
 }
 
