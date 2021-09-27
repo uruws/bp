@@ -1,7 +1,7 @@
-FROM uws/meteor:1.10.2
+FROM uws/meteor:1.10.2-2109
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210716"
+LABEL version="210927"
 
 ARG APP
 ENV APP ${APP}
