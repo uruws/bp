@@ -34,6 +34,9 @@ meteor-check:
 publish-meteor-check:
 	@echo 'publish-meteor-check'
 
+.PHONY: meteor
+meteor: docker/meteor-1.10.2 docker/meteor-2.2
+
 # Base image
 
 .PHONY: docker/base
