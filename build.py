@@ -7,12 +7,6 @@ from os import chdir, path, system, environ
 from subprocess import getstatusoutput
 from time import time
 
-app = {
-	'app': {'src': 'app/src'},
-	'beta': {'src': 'beta/src'},
-	'cs': {'src': 'cs/src', 'target': 'crowdsourcing'},
-}
-
 class cmdError(Exception):
 	pass
 
@@ -63,8 +57,10 @@ def publish(target):
 
 def main():
 	flags = ArgumentParser(description = 'meteor buildpack')
-	flags.add_argument('--target', metavar = 'app', default = 'app',
-		choices = sorted(app.keys()), required = True, help = 'target app')
+	flags.add_argument('--src', metavar = 'dir', required = True,
+		help = 'app source dir')
+	flags.add_argument('--target', metavar = 'app', required = True,
+		help = 'target app')
 	flags.add_argument('--version', metavar = 'X.Y.Z', required = True,
 		help = 'app version/tag')
 	flags.add_argument('test_flags', metavar = 'test flags', default = '',
@@ -79,25 +75,22 @@ def main():
 		print("chdir: %s" % err, file = sys.stderr)
 		return 1
 
-	src = app[args.target]['src']
-	target = app[args.target].get('target', args.target)
-
 	t_start = time()
 	try:
-		gitFetch(src)
-		gitCheckout(src, args.version)
+		gitFetch(args.src)
+		gitCheckout(args.src, args.version)
 	except cmdError as err:
-		print('Fetch', src, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Fetch', args.src, 'version', args.version, 'failed!', file = sys.stderr)
 		return 2
 
 	try:
-		environ['APP_NAME'] = target
-		environ['APP_BUILD_TAG'] = appBuildTag(src)
+		environ['APP_NAME'] = args.target
+		environ['APP_BUILD_TAG'] = appBuildTag(args.src)
 		environ['TEST_FLAGS'] = ' '.join(args.test_flags)
-		make(target)
+		make(args.target)
 		build()
 	except cmdError as err:
-		print('Build', target, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return 3
 
 	try:
