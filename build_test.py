@@ -28,6 +28,10 @@ class TestBuild(unittest.TestCase):
 		build.gitFetch('testing/src')
 		build.system.assert_called_with('git -C testing/src fetch --tags --prune --prune-tags')
 
+	def test_gitCheckout(self):
+		build.gitCheckout('testing/src', '0.999')
+		build.system.assert_called_with('git -C testing/src checkout 0.999')
+
 	def test_make(self):
 		build.make('testing')
 		build.system.assert_called_with('make testing')
@@ -45,6 +49,11 @@ class TestBuild(unittest.TestCase):
 			# git fetch
 			with self.assertRaises(build.cmdError) as e:
 				build.gitFetch('testing/src')
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
+			# git checkout
+			with self.assertRaises(build.cmdError) as e:
+				build.gitCheckout('testing/src', '0.999')
 			err = e.exception
 			self.assertEqual(err.args[0], 999)
 			# make
