@@ -12,6 +12,16 @@ environ['BUILDPACK_TESTING'] = '1'
 import build
 build.system = MagicMock(return_value = 0)
 
+from contextlib import contextmanager
+
+@contextmanager
+def system_error(status):
+	try:
+		build.system = MagicMock(return_value = status)
+		yield
+	finally:
+		build.system = MagicMock(return_value = 0)
+
 class TestBuild(unittest.TestCase):
 
 	def test_gitFetch(self):
@@ -41,8 +51,7 @@ class TestBuild(unittest.TestCase):
 		build.system.assert_called_with('make publish-testing')
 
 	def test_cmdError(self):
-		try:
-			build.system = MagicMock(return_value = 999)
+		with system_error(999):
 			# make
 			with self.assertRaises(build.cmdError) as e:
 				build.make('testing.error')
@@ -58,8 +67,6 @@ class TestBuild(unittest.TestCase):
 				build.publish('testing.error')
 			err = e.exception
 			self.assertEqual(err.args[0], 999)
-		finally:
-			build.system = MagicMock(return_value = 0)
 
 if __name__ == '__main__':
 	unittest.main()
