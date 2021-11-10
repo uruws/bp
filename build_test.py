@@ -4,11 +4,13 @@
 # See LICENSE file.
 
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import build
-build.system = MagicMock(return_value = 0)
-build.getstatusoutput = MagicMock(return_value = (0, 'FAKE_TAG'))
+
+def system_mock():
+	build.system = MagicMock(return_value = 0)
+	build.getstatusoutput = MagicMock(return_value = (0, 'FAKE_TAG'))
 
 from contextlib import contextmanager
 
@@ -19,10 +21,12 @@ def system_error(status):
 		build.getstatusoutput = MagicMock(return_value = (status, 'FAKE_TAG'))
 		yield
 	finally:
-		build.system = MagicMock(return_value = 0)
-		build.getstatusoutput = MagicMock(return_value = (0, 'FAKE_TAG'))
+		system_mock()
 
 class TestBuild(unittest.TestCase):
+
+	def setUp(self):
+		system_mock()
 
 	def test_gitFetch(self):
 		build.gitFetch('testing/src')
@@ -86,6 +90,17 @@ class TestBuild(unittest.TestCase):
 			build.main(argv = [])
 		err = e.exception
 		self.assertEqual(err.args[0], 2)
+
+	def test_main(self):
+		build.main(argv = [
+			'--src', 'testing/src',
+			'--target', 'testing',
+			'--version', '0.999',
+		])
+		calls = [
+			call('git -C testing/src fetch --tags --prune --prune-tags'),
+		]
+		build.system.assert_has_calls(calls)
 
 if __name__ == '__main__':
 	unittest.main()
