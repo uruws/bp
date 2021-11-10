@@ -99,6 +99,10 @@ class TestBuild(unittest.TestCase):
 		])
 		calls = [
 			call('git -C testing/src fetch --tags --prune --prune-tags'),
+			call('git -C testing/src checkout 0.999'),
+			call('make testing'),
+			call('make deploy'),
+			call('make publish-testing'),
 		]
 		build.system.assert_has_calls(calls)
 
