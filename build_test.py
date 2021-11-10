@@ -81,5 +81,11 @@ class TestBuild(unittest.TestCase):
 			err = e.exception
 			self.assertEqual(err.args[0], 999)
 
+	def test_main_no_args(self):
+		with self.assertRaises(SystemExit) as e:
+			build.main(argv = [])
+		err = e.exception
+		self.assertEqual(err.args[0], 2)
+
 if __name__ == '__main__':
 	unittest.main()

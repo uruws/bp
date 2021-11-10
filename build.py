@@ -58,7 +58,7 @@ def publish(target):
 	if rc != 0:
 		raise cmdError(rc)
 
-def main():
+def main(argv = None):
 	flags = ArgumentParser(description = 'meteor buildpack')
 	flags.add_argument('--src', metavar = 'dir', required = True,
 		help = 'app source dir')
@@ -69,7 +69,9 @@ def main():
 	flags.add_argument('test_flags', metavar = 'test flags', default = '',
 		help = 'test flags', nargs = '*')
 
-	args = flags.parse_args()
+	if argv is None:
+		argv = sys.argv[1:]
+	args = flags.parse_args(args = argv)
 
 	workdir = path.abspath(path.dirname(__file__))
 	try:
