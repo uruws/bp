@@ -32,6 +32,10 @@ class TestBuild(unittest.TestCase):
 		build.gitCheckout('testing/src', '0.999')
 		build.system.assert_called_with('git -C testing/src checkout 0.999')
 
+	def test_appBuildTag(self):
+		build.appBuildTag('testing/src')
+		build.getstatusoutput.assert_called_with('git -C testing/src describe --tags --always')
+
 	def test_make(self):
 		build.make('testing')
 		build.system.assert_called_with('make testing')
@@ -54,6 +58,11 @@ class TestBuild(unittest.TestCase):
 			# git checkout
 			with self.assertRaises(build.cmdError) as e:
 				build.gitCheckout('testing/src', '0.999')
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
+			# git describe tags
+			with self.assertRaises(build.cmdError) as e:
+				build.appBuildTag('testing/src')
 			err = e.exception
 			self.assertEqual(err.args[0], 999)
 			# make
