@@ -33,5 +33,9 @@ class TestBuild(unittest.TestCase):
 		build.make('testing')
 		build.system.assert_called_with('make testing')
 
+	def test_build(self):
+		build.build()
+		build.system.assert_called_with('make deploy')
+
 if __name__ == '__main__':
 	unittest.main()
