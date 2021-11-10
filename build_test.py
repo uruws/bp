@@ -6,11 +6,9 @@
 import unittest
 from unittest.mock import MagicMock
 
-from os import environ
-environ['BUILDPACK_TESTING'] = '1'
-
 import build
 build.system = MagicMock(return_value = 0)
+build.getstatusoutput = MagicMock(return_value = (0, 'FAKE_TAG'))
 
 from contextlib import contextmanager
 
@@ -18,25 +16,17 @@ from contextlib import contextmanager
 def system_error(status):
 	try:
 		build.system = MagicMock(return_value = status)
+		build.getstatusoutput = MagicMock(return_value = (status, 'FAKE_TAG'))
 		yield
 	finally:
 		build.system = MagicMock(return_value = 0)
+		build.getstatusoutput = MagicMock(return_value = (0, 'FAKE_TAG'))
 
 class TestBuild(unittest.TestCase):
 
 	def test_gitFetch(self):
-		self.assertIsNone(build.gitFetch('testing'))
-
-	def test_gitCheckout(self):
-		self.assertIsNone(build.gitCheckout('testing', '999'))
-
-	def test_appBuildTag(self):
-		self.assertIsNotNone(build.appBuildTag('.'))
-		# invalid source dir
-		with self.assertRaises(build.cmdError) as e:
-			build.appBuildTag('invalid')
-		err = e.exception
-		self.assertEqual(err.args[0], 128)
+		build.gitFetch('testing/src')
+		build.system.assert_called_with('git -C testing/src fetch --tags --prune --prune-tags')
 
 	def test_make(self):
 		build.make('testing')
@@ -52,6 +42,11 @@ class TestBuild(unittest.TestCase):
 
 	def test_cmdError(self):
 		with system_error(999):
+			# git fetch
+			with self.assertRaises(build.cmdError) as e:
+				build.gitFetch('testing/src')
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
 			# make
 			with self.assertRaises(build.cmdError) as e:
 				build.make('testing.error')
