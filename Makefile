@@ -6,10 +6,7 @@ LOGS_DIR ?= $(HOME)/logs
 LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(APP_BUILD_TAG).log
 
 .PHONY: default
-default: all
-
-.PHONY: all
-all: bootstrap app beta
+default: bootstrap
 
 .PHONY: bootstrap
 bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
@@ -18,6 +15,10 @@ bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
 log-init:
 	@mkdir -vp $(LOGS_DIR)
 	@date -R >$(LOGF)
+
+.PHONY: prune
+prune:
+	@docker system prune -f
 
 # Internal checks
 
@@ -34,9 +35,6 @@ meteor-check:
 publish-meteor-check:
 	@echo 'publish-meteor-check'
 
-.PHONY: meteor
-meteor: docker/meteor-1.10.2 docker/meteor-2.2
-
 # Base image
 
 .PHONY: docker/base
@@ -45,6 +43,11 @@ docker/base:
 	@echo '*** Build: base image'
 	@echo '***'
 	@./docker/base/build.sh
+
+# Meteor
+
+.PHONY: meteor
+meteor: docker/meteor-1.10.2 docker/meteor-2.2
 
 # Meteor 1.10.2
 
