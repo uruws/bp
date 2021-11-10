@@ -94,12 +94,12 @@ def main():
 		return 3
 
 	try:
-		publish(target)
+		publish(args.target)
 	except cmdError as err:
-		print('Publish', target, 'version', args.version, 'failed!', file = sys.stderr)
+		print('Publish', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return 4
 
-	print('Build', target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
+	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0
 
 if __name__ == '__main__':
