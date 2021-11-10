@@ -37,5 +37,9 @@ class TestBuild(unittest.TestCase):
 		build.build()
 		build.system.assert_called_with('make deploy')
 
+	def test_publish(self):
+		build.publish('testing')
+		build.system.assert_called_with('make publish-testing')
+
 if __name__ == '__main__':
 	unittest.main()
