@@ -4,11 +4,14 @@
 # See LICENSE file.
 
 import unittest
+from unittest.mock import MagicMock
 
 from os import environ
 environ['BUILDPACK_TESTING'] = '1'
 
 import build
+
+build.system = MagicMock(return_value = 0)
 
 class TestBuild(unittest.TestCase):
 
@@ -25,6 +28,10 @@ class TestBuild(unittest.TestCase):
 			build.appBuildTag('invalid')
 		err = e.exception
 		self.assertEqual(err.args[0], 128)
+
+	def test_make(self):
+		build.make('testing')
+		build.system.assert_called_with('make testing')
 
 if __name__ == '__main__':
 	unittest.main()
