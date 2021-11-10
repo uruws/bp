@@ -23,8 +23,12 @@ prune:
 # Internal checks
 
 .PHONY: check
-check:
+check: check-build
 	@./check.sh
+
+.PHONY: check-build
+check-build:
+	@./build_test.py -v
 
 .PHONY: meteor-check
 meteor-check:
