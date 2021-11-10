@@ -10,7 +10,6 @@ from os import environ
 environ['BUILDPACK_TESTING'] = '1'
 
 import build
-
 build.system = MagicMock(return_value = 0)
 
 class TestBuild(unittest.TestCase):
@@ -40,6 +39,27 @@ class TestBuild(unittest.TestCase):
 	def test_publish(self):
 		build.publish('testing')
 		build.system.assert_called_with('make publish-testing')
+
+	def test_cmdError(self):
+		try:
+			build.system = MagicMock(return_value = 999)
+			# make
+			with self.assertRaises(build.cmdError) as e:
+				build.make('testing.error')
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
+			# build
+			with self.assertRaises(build.cmdError) as e:
+				build.build()
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
+			# publish
+			with self.assertRaises(build.cmdError) as e:
+				build.publish('testing.error')
+			err = e.exception
+			self.assertEqual(err.args[0], 999)
+		finally:
+			build.system = MagicMock(return_value = 0)
 
 if __name__ == '__main__':
 	unittest.main()
