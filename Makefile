@@ -16,6 +16,10 @@ log-init:
 	@mkdir -vp $(LOGS_DIR)
 	@date -R >$(LOGF)
 
+.PHONY: clean
+clean:
+	@rm -rf ./build ./tmp ./__pycache__
+
 .PHONY: prune
 prune:
 	@docker system prune -f
