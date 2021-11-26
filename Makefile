@@ -33,11 +33,8 @@ check-meteor:
 	@./check.sh
 
 .PHONY: check
-check: check-build
-
-.PHONY: check-build
-check-build:
-	@./build_test.py -v
+check:
+	@./docker/devel/cmd.sh ./test/check.sh
 
 .PHONY: meteor-check
 meteor-check:
