@@ -1,2 +1,2 @@
 #!/bin/sh
-exec make check-build
+exec make check

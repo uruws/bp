@@ -20,6 +20,12 @@ log-init:
 prune:
 	@docker system prune -f
 
+# devel image
+
+.PHONY: devel
+devel:
+	@./docker/devel/build.sh
+
 # Internal checks
 
 .PHONY: check-meteor
