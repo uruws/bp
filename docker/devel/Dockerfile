@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh shellcheck
+RUN /root/bin/apt-install.sh shellcheck git
 
 RUN install -v -d -m 0750 -o uws -g uws /srv/deploy/Buildpack
 

@@ -1,6 +1,5 @@
 #!/bin/sh
 set -eu
-find /srv/deploy/Buildpack -type f -name '*.sh' -print0 |
-	xargs --null -- \
+git -C /srv/deploy/Buildpack ls-files | grep -F '.sh' | sort | xargs \
 	shellcheck --check-sourced --color=auto --norc --shell=sh --severity=warning
 exit 0
