@@ -22,9 +22,12 @@ prune:
 
 # Internal checks
 
+.PHONY: check-meteor
+check-meteor:
+	@./check.sh
+
 .PHONY: check
 check: check-build
-	@./check.sh
 
 .PHONY: check-build
 check-build:
