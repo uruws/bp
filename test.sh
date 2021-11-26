@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-test_flags="${TEST_FLAGS}"
+test_flags=${TEST_FLAGS:-""}
 case ${test_flags} in
 	--no-test)
 		echo "Ignore tests!!"

@@ -33,6 +33,7 @@ ls -lhL ${appenv}
 
 echo "--- DEBUG end"
 
+# shellcheck disable=SC1090
 . ${appenv}
 
 echo "--- INFO start"

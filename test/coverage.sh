@@ -5,7 +5,7 @@ cd ${HOME}/tmp
 
 rm -f .coverage
 
-echo '*** build_test.py'
+echo '*** /srv/deploy/Buildpack/build_test.py'
 python3-coverage run /srv/deploy/Buildpack/build_test.py "$@"
 
 covd=${HOME}/tmp/htmlcov

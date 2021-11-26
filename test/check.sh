@@ -1,5 +1,7 @@
 #!/bin/sh
 set -eu
+
+echo '*** test/shellcheck.sh'
 ./test/shellcheck.sh
-./test/coverage.sh
-exit 0
+
+exec ./test/coverage.sh

@@ -7,4 +7,4 @@ exec docker run ${CMD_ARGS} --rm --name buildpack-devel \
 	--read-only \
 	-v ${PWD}:/srv/deploy/Buildpack:ro \
 	-v ${PWD}/tmp:/home/uws/tmp \
-	uws/buildpack:devel $@
+	uws/buildpack:devel "$@"
