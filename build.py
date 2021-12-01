@@ -58,7 +58,7 @@ def publish(target):
 	if rc != 0:
 		raise cmdError(rc)
 
-def main(argv = None):
+def main(argv = []):
 	flags = ArgumentParser(description = 'meteor buildpack')
 	flags.add_argument('--src', metavar = 'dir', required = True,
 		help = 'app source dir')
@@ -69,8 +69,6 @@ def main(argv = None):
 	flags.add_argument('test_flags', metavar = 'test flags', default = '',
 		help = 'test flags', nargs = '*')
 
-	if argv is None:
-		argv = sys.argv[1:]
 	args = flags.parse_args(args = argv)
 
 	workdir = path.abspath(path.dirname(__file__))
@@ -107,7 +105,7 @@ def main(argv = None):
 	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma no coverage
 	sys.stdout.reconfigure(line_buffering = False)
 	sys.stderr.reconfigure(line_buffering = False)
-	sys.exit(main())
+	sys.exit(main(sys.argv[1:]))
