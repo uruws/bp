@@ -160,6 +160,8 @@ class Test(unittest.TestCase):
 			t.assertEqual(build.main(argv = _argv), build.EBUILD)
 		with system_error(99, cmd = 'make deploy'):
 			t.assertEqual(build.main(argv = _argv), build.EBUILD)
+		with system_error(99, cmd = 'git -C testing/src describe'):
+			t.assertEqual(build.main(argv = _argv), build.EBUILD)
 		# publish
 		with system_error(99, cmd = 'make publish-testing'):
 			t.assertEqual(build.main(argv = _argv), build.EPUBLISH)
