@@ -15,9 +15,16 @@ def system_mock():
 from contextlib import contextmanager
 
 @contextmanager
-def system_error(status):
+def system_error(status, cmd = ''):
+	def _exec(x):
+		if cmd != '' and x.startswith(cmd):
+			return status
+		elif cmd == '':
+			return status
+		else:
+			return 0
 	try:
-		build.system = MagicMock(return_value = status)
+		build.system = MagicMock(side_effect = _exec)
 		build.getstatusoutput = MagicMock(return_value = (status, 'FAKE_TAG'))
 		yield
 	finally:
@@ -135,6 +142,10 @@ class Test(unittest.TestCase):
 	def test_main_errors(t):
 		with mock_chdir(fail = True):
 			t.assertEqual(build.main(argv = _argv), build.EWORKDIR)
+		with system_error(99, cmd = 'git -C testing/src fetch'):
+			t.assertEqual(build.main(argv = _argv), build.EFETCH)
+		with system_error(99, cmd = 'git -C testing/src checkout'):
+			t.assertEqual(build.main(argv = _argv), build.EFETCH)
 
 if __name__ == '__main__':
 	unittest.main()

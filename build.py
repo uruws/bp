@@ -59,6 +59,7 @@ def publish(target):
 		raise cmdError(rc)
 
 EWORKDIR = 10
+EFETCH   = 11
 
 def main(argv = []):
 	flags = ArgumentParser(description = 'meteor buildpack')
@@ -86,7 +87,7 @@ def main(argv = []):
 		gitCheckout(args.src, args.version)
 	except cmdError as err:
 		print('Fetch', args.src, 'version', args.version, 'failed!', file = sys.stderr)
-		return 2
+		return EFETCH
 
 	try:
 		environ['APP_NAME'] = args.target
