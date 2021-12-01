@@ -31,6 +31,24 @@ def mock_environ():
 	finally:
 		del build.environ['BUILDPACK_TESTING']
 
+@contextmanager
+def mock_chdir(fail = False):
+	def _chdir(d):
+		if fail:
+			raise FileNotFoundError(d)
+	_bup = build.chdir
+	try:
+		build.chdir = MagicMock(side_effect = _chdir)
+		yield
+	finally:
+		build.chdir = _bup
+
+_argv = [
+	'--src', 'testing/src',
+	'--target', 'testing',
+	'--version', '0.999',
+]
+
 class Test(unittest.TestCase):
 
 	def setUp(t):
@@ -104,11 +122,7 @@ class Test(unittest.TestCase):
 		t.assertEqual(err.args[0], 2)
 
 	def test_main(t):
-		build.main(argv = [
-			'--src', 'testing/src',
-			'--target', 'testing',
-			'--version', '0.999',
-		])
+		build.main(argv = _argv)
 		calls = [
 			call('git -C testing/src fetch --tags --prune --prune-tags'),
 			call('git -C testing/src checkout 0.999'),
@@ -117,6 +131,10 @@ class Test(unittest.TestCase):
 			call('make publish-testing'),
 		]
 		build.system.assert_has_calls(calls)
+
+	def test_main_errors(t):
+		with mock_chdir(fail = True):
+			t.assertEqual(build.main(argv = _argv), build.EWORKDIR)
 
 if __name__ == '__main__':
 	unittest.main()

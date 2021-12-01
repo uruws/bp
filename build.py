@@ -58,6 +58,8 @@ def publish(target):
 	if rc != 0:
 		raise cmdError(rc)
 
+EWORKDIR = 10
+
 def main(argv = []):
 	flags = ArgumentParser(description = 'meteor buildpack')
 	flags.add_argument('--src', metavar = 'dir', required = True,
@@ -76,7 +78,7 @@ def main(argv = []):
 		chdir(workdir)
 	except FileNotFoundError as err:
 		print("chdir: %s" % err, file = sys.stderr)
-		return 1
+		return EWORKDIR
 
 	t_start = time()
 	try:
