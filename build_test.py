@@ -140,12 +140,19 @@ class Test(unittest.TestCase):
 		build.system.assert_has_calls(calls)
 
 	def test_main_errors(t):
+		# workdir
 		with mock_chdir(fail = True):
 			t.assertEqual(build.main(argv = _argv), build.EWORKDIR)
+		# fetch
 		with system_error(99, cmd = 'git -C testing/src fetch'):
 			t.assertEqual(build.main(argv = _argv), build.EFETCH)
 		with system_error(99, cmd = 'git -C testing/src checkout'):
 			t.assertEqual(build.main(argv = _argv), build.EFETCH)
+		# build
+		with system_error(99, cmd = 'make testing'):
+			t.assertEqual(build.main(argv = _argv), build.EBUILD)
+		with system_error(99, cmd = 'make deploy'):
+			t.assertEqual(build.main(argv = _argv), build.EBUILD)
 
 if __name__ == '__main__':
 	unittest.main()

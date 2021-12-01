@@ -60,6 +60,7 @@ def publish(target):
 
 EWORKDIR = 10
 EFETCH   = 11
+EBUILD   = 12
 
 def main(argv = []):
 	flags = ArgumentParser(description = 'meteor buildpack')
@@ -97,7 +98,7 @@ def main(argv = []):
 		build()
 	except cmdError as err:
 		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
-		return 3
+		return EBUILD
 
 	try:
 		publish(args.target)
