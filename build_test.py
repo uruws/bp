@@ -23,9 +23,16 @@ def system_error(status, cmd = ''):
 			return status
 		else:
 			return 0
+	def _gso(x):
+		if cmd != '' and x.startswith(cmd):
+			return (status, 'FAKE_TAG')
+		elif cmd == '':
+			return (status, 'FAKE_TAG')
+		else:
+			return (0, 'FAKE_TAG')
 	try:
 		build.system = MagicMock(side_effect = _exec)
-		build.getstatusoutput = MagicMock(return_value = (status, 'FAKE_TAG'))
+		build.getstatusoutput = MagicMock(side_effect = _gso)
 		yield
 	finally:
 		system_mock()
@@ -153,6 +160,9 @@ class Test(unittest.TestCase):
 			t.assertEqual(build.main(argv = _argv), build.EBUILD)
 		with system_error(99, cmd = 'make deploy'):
 			t.assertEqual(build.main(argv = _argv), build.EBUILD)
+		# publish
+		with system_error(99, cmd = 'make publish-testing'):
+			t.assertEqual(build.main(argv = _argv), build.EPUBLISH)
 
 if __name__ == '__main__':
 	unittest.main()
