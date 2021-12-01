@@ -23,75 +23,87 @@ def system_error(status):
 	finally:
 		system_mock()
 
-class TestBuild(unittest.TestCase):
+@contextmanager
+def mock_environ():
+	try:
+		build.environ['BUILDPACK_TESTING'] = '1'
+		yield
+	finally:
+		del build.environ['BUILDPACK_TESTING']
 
-	def setUp(self):
+class Test(unittest.TestCase):
+
+	def setUp(t):
 		system_mock()
 
-	def test_gitFetch(self):
+	def test_gitFetch(t):
 		build.gitFetch('testing/src')
 		build.system.assert_called_with('git -C testing/src fetch --tags --prune --prune-tags')
+		with mock_environ():
+			t.assertIsNone(build.gitFetch('testing/src'))
 
-	def test_gitCheckout(self):
+	def test_gitCheckout(t):
 		build.gitCheckout('testing/src', '0.999')
 		build.system.assert_called_with('git -C testing/src checkout 0.999')
+		with mock_environ():
+			t.assertIsNone(build.gitCheckout('testing/src', '0.999'))
 
-	def test_appBuildTag(self):
+	def test_appBuildTag(t):
 		build.appBuildTag('testing/src')
 		build.getstatusoutput.assert_called_with('git -C testing/src describe --tags --always')
 
-	def test_make(self):
+	def test_make(t):
 		build.make('testing')
 		build.system.assert_called_with('make testing')
 
-	def test_build(self):
+	def test_build(t):
 		build.build()
 		build.system.assert_called_with('make deploy')
 
-	def test_publish(self):
+	def test_publish(t):
 		build.publish('testing')
 		build.system.assert_called_with('make publish-testing')
 
-	def test_cmdError(self):
+	def test_cmdError(t):
 		with system_error(999):
 			# git fetch
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.gitFetch('testing/src')
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 			# git checkout
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.gitCheckout('testing/src', '0.999')
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 			# git describe tags
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.appBuildTag('testing/src')
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 			# make
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.make('testing.error')
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 			# build
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.build()
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 			# publish
-			with self.assertRaises(build.cmdError) as e:
+			with t.assertRaises(build.cmdError) as e:
 				build.publish('testing.error')
 			err = e.exception
-			self.assertEqual(err.args[0], 999)
+			t.assertEqual(err.args[0], 999)
 
-	def test_main_no_args(self):
-		with self.assertRaises(SystemExit) as e:
+	def test_main_no_args(t):
+		with t.assertRaises(SystemExit) as e:
 			build.main(argv = [])
 		err = e.exception
-		self.assertEqual(err.args[0], 2)
+		t.assertEqual(err.args[0], 2)
 
-	def test_main(self):
+	def test_main(t):
 		build.main(argv = [
 			'--src', 'testing/src',
 			'--target', 'testing',
