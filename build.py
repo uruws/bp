@@ -10,6 +10,8 @@ from os import chdir, path, system, environ
 from subprocess import getstatusoutput
 from time import time
 
+status_dir = environ.get('UWSCLI_STATUS_DIR', '/run/uwscli/build')
+
 class cmdError(Exception):
 	pass
 

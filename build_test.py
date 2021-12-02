@@ -68,6 +68,9 @@ class Test(unittest.TestCase):
 	def setUp(t):
 		system_mock()
 
+	def test_globals(t):
+		t.assertEqual(build.status_dir, '/run/uwscli/build')
+
 	def test_gitFetch(t):
 		build.gitFetch('testing/src')
 		build.system.assert_called_with('git -C testing/src fetch --tags --prune --prune-tags')
