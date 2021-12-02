@@ -6,7 +6,8 @@
 import sys
 
 from argparse import ArgumentParser
-from os import chdir, path, system, environ
+from os import chdir, path, system, environ, linesep
+from pathlib import Path
 from subprocess import getstatusoutput
 from time import time
 
@@ -60,6 +61,14 @@ def publish(target):
 	if rc != 0:
 		raise cmdError(rc)
 
+def _stwrite(f, version, st):
+	f.write_text(f"{st.strip().upper()}:{version.strip()}{linesep}")
+
+def set_status(app, version, st):
+	f = Path(status_dir, f"{app}.status")
+	Path(f.parent).mkdir(mode = 0o750, parents = True, exist_ok = True)
+	_stwrite(f, version, st)
+
 EWORKDIR = 10
 EFETCH   = 11
 EBUILD   = 12
@@ -86,13 +95,16 @@ def main(argv = []):
 		return EWORKDIR
 
 	t_start = time()
+	set_status(args.target, args.version, 'CHECK')
 	try:
 		gitFetch(args.src)
 		gitCheckout(args.src, args.version)
 	except cmdError as err:
+		set_status(args.target, args.version, 'FAIL')
 		print('Fetch', args.src, 'version', args.version, 'failed!', file = sys.stderr)
 		return EFETCH
 
+	set_status(args.target, args.version, 'BUILD')
 	try:
 		environ['APP_NAME'] = args.target
 		environ['APP_BUILD_TAG'] = appBuildTag(args.src)
@@ -100,15 +112,19 @@ def main(argv = []):
 		make(args.target)
 		build()
 	except cmdError as err:
+		set_status(args.target, args.version, 'FAIL')
 		print('Build', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return EBUILD
 
+	set_status(args.target, args.version, 'PUBLISH')
 	try:
 		publish(args.target)
 	except cmdError as err:
+		set_status(args.target, args.version, 'FAIL')
 		print('Publish', args.target, 'version', args.version, 'failed!', file = sys.stderr)
 		return EPUBLISH
 
+	set_status(args.target, args.version, 'OK')
 	print('Build', args.target, 'version', args.version, ', done in', "%fs" % (time() - t_start))
 	return 0
 
