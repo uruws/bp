@@ -32,9 +32,8 @@ devel:
 
 # Internal checks
 
-.PHONY: check-meteor
-check-meteor:
-	@./check.sh
+.PHONY: check-all
+check-all: check meteor-check
 
 .PHONY: check
 check:
@@ -45,6 +44,10 @@ meteor-check:
 	@$(MAKE) check-devel APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-1.10.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-2.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
+
+.PHONY: check-meteor
+check-meteor:
+	@./check.sh
 
 .PHONY: publish-meteor-check
 publish-meteor-check:
