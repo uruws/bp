@@ -160,9 +160,17 @@ publish-app:
 	@echo '*** Publish: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
 	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 \
+		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 	@/srv/uws/deploy/host/ecr-login.sh us-west-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 \
+		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/host/ecr-login.sh us-east-2
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 \
+		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/host/ecr-login.sh us-west-2
+	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 \
+		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 # Beta
 
