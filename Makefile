@@ -3,7 +3,8 @@ APP_NAME ?= NOTSET
 APP_BUILD_TAG ?= NOTSET
 TEST_FLAGS ?=
 LOGS_DIR ?= $(HOME)/logs
-LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(APP_BUILD_TAG).log
+LOG_DATE != date '+%y%m%d-%H%M%S'
+LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
 
 .PHONY: default
 default: bootstrap
