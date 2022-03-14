@@ -203,3 +203,20 @@ publish-crowdsourcing:
 	@echo '***'
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
 	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)
+
+# Infra-UI
+
+.PHONY: infra-ui
+infra-ui: log-init docker/meteor-2.2
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Make: infra-ui $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@./infra-ui/build.sh $(APP_BUILD_TAG) | tee -a $(LOGF)
+
+.PHONY: publish-infra-ui
+publish-infra-ui:
+	@echo '***'
+	@echo '*** Publish: infra-ui $(APP_BUILD_TAG)'
+	@echo '***'
+	@/srv/uws/deploy/host/ecr-login.sh us-east-1
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
