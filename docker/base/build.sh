@@ -10,4 +10,8 @@ docker build "$@" --rm -t uws/buildpack:base ./docker/base
 docker build "$@" --rm -t uws/buildpack:base-2109 \
 	-f docker/base/Dockerfile.2109 \
 	./docker/base
+# base-2203
+docker build "$@" --rm -t uws/buildpack:base-2203 \
+	-f docker/base/Dockerfile.2203 \
+	./docker/base
 exit 0
