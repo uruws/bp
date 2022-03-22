@@ -7,4 +7,6 @@ if ! test -d ./${app}; then
 	exit 9
 fi
 exec docker build --rm -t uws/${app}:${app_tag} \
-	--build-arg APP=${app} ./${app}
+	--build-arg APP=${app} \
+	-f ./${app}/Dockerfile \
+	./${app}
