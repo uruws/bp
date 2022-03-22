@@ -8,5 +8,5 @@ if ! test -d ./${app}; then
 fi
 exec docker build --rm -t uws/${app}:${app_tag} \
 	--build-arg APP=${app} \
-	-f ./${app}/Dockerfile \
+	-f ./${app}/Dockerfile.2203 \
 	./${app}
