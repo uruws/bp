@@ -10,7 +10,7 @@ LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
 default: bootstrap
 
 .PHONY: bootstrap
-bootstrap: docker/meteor-1.10.2 docker/meteor-2.2
+bootstrap: docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
 
 .PHONY: log-init
 log-init:
@@ -45,6 +45,7 @@ meteor-check:
 	@$(MAKE) check-devel APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-1.10.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-2.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
+	@$(MAKE) check-2.6 APP_BUILD_TAG=$(APP_BUILD_TAG)
 
 .PHONY: check-meteor
 check-meteor:
@@ -66,7 +67,7 @@ docker/base:
 # Meteor
 
 .PHONY: meteor
-meteor: docker/meteor-devel docker/meteor-1.10.2 docker/meteor-2.2
+meteor: docker/meteor-devel docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
 
 # Meteor devel
 
@@ -117,6 +118,23 @@ check-2.2: docker/meteor-2.2
 	@echo '*** Make: meteor-check 2.2 $(APP_BUILD_TAG)'
 	@echo '***'
 	@./docker/meteor-2.2/check/build.sh $(APP_BUILD_TAG)
+	@./test.sh meteor-check $(APP_BUILD_TAG)
+
+# Meteor 2.6
+
+.PHONY: docker/meteor-2.6
+docker/meteor-2.6: docker/base
+	@echo '***'
+	@echo '*** Build: meteor 2.6'
+	@echo '***'
+	@./docker/meteor-2.6/build.sh
+
+.PHONY: check-2.6
+check-2.6: docker/meteor-2.6
+	@echo '***'
+	@echo '*** Make: meteor-check 2.6 $(APP_BUILD_TAG)'
+	@echo '***'
+	@./docker/meteor-2.6/check/build.sh $(APP_BUILD_TAG)
 	@./test.sh meteor-check $(APP_BUILD_TAG)
 
 # Deploy and intermediate images
