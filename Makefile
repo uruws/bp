@@ -10,7 +10,7 @@ LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
 default: bootstrap
 
 .PHONY: bootstrap
-bootstrap: docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
+bootstrap: docker/meteor docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
 
 .PHONY: log-init
 log-init:
