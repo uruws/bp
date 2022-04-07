@@ -42,6 +42,7 @@ check:
 
 .PHONY: meteor-check
 meteor-check:
+	@$(MAKE) check-latest APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-devel APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-1.10.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-2.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
@@ -67,12 +68,27 @@ docker/base:
 # Meteor
 
 .PHONY: meteor
-meteor: docker/meteor-devel docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
+meteor: docker/meteor docker/meteor-devel docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
+
+.PHONY: docker/meteor
+docker/meteor: docker/base
+	@echo '***'
+	@echo '*** Build: meteor'
+	@echo '***'
+	@./docker/meteor/build.sh
+
+.PHONY: check-latest
+check-latest: docker/meteor
+	@echo '***'
+	@echo '*** Make: meteor-check latest $(APP_BUILD_TAG)'
+	@echo '***'
+	@./docker/meteor/check/build.sh $(APP_BUILD_TAG)
+	@./test.sh meteor-check $(APP_BUILD_TAG)
 
 # Meteor devel
 
 .PHONY: docker/meteor-devel
-docker/meteor-devel: docker/base
+docker/meteor-devel: docker/meteor
 	@echo '***'
 	@echo '*** Build: meteor devel'
 	@echo '***'
