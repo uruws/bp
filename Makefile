@@ -241,7 +241,7 @@ publish-crowdsourcing:
 # Infra-UI
 
 .PHONY: infra-ui
-infra-ui: log-init docker/meteor-2.2
+infra-ui: log-init docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: infra-ui $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
