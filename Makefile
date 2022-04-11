@@ -179,7 +179,7 @@ deploy: bundle
 # App
 
 .PHONY: app
-app: log-init docker/meteor-1.10.2
+app: log-init docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
