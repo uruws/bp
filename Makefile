@@ -10,7 +10,7 @@ LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
 default: bootstrap
 
 .PHONY: bootstrap
-bootstrap: docker/meteor docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
+bootstrap: meteor
 
 .PHONY: log-init
 log-init:
@@ -44,9 +44,6 @@ check:
 meteor-check:
 	@$(MAKE) check-latest APP_BUILD_TAG=$(APP_BUILD_TAG)
 	@$(MAKE) check-devel APP_BUILD_TAG=$(APP_BUILD_TAG)
-	@$(MAKE) check-1.10.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
-	@$(MAKE) check-2.2 APP_BUILD_TAG=$(APP_BUILD_TAG)
-	@$(MAKE) check-2.6 APP_BUILD_TAG=$(APP_BUILD_TAG)
 
 .PHONY: check-meteor
 check-meteor:
@@ -68,7 +65,7 @@ docker/base:
 # Meteor
 
 .PHONY: meteor
-meteor: docker/meteor docker/meteor-devel docker/meteor-1.10.2 docker/meteor-2.2 docker/meteor-2.6
+meteor: docker/meteor docker/meteor-devel docker/meteor-2.2
 
 .PHONY: docker/meteor
 docker/meteor: docker/base
