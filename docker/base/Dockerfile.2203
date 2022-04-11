@@ -1,7 +1,7 @@
 FROM debian:bullseye-20220328-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220401"
+LABEL version="220411"
 
 USER root:root
 WORKDIR /root
@@ -13,7 +13,8 @@ COPY ./utils/apt-*.sh /root/bin/
 RUN chmod -v 0750 /root/bin /root/bin/*.sh
 
 RUN /root/bin/apt-distupgrade.sh
-RUN /root/bin/apt-install.sh bash ca-certificates locales tar gzip bzip2 xz-utils zip unzip
+RUN /root/bin/apt-install.sh bash ca-certificates locales tar gzip bzip2 \
+	xz-utils zip unzip python3
 
 RUN echo 'en_US.UTF-8 UTF-8' >/etc/locale.gen \
 	&& locale-gen \
