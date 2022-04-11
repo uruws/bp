@@ -4,7 +4,7 @@ ARG APP_TAG
 FROM uws/${APP}:install-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="20210716"
+LABEL version="220412"
 
 ARG APP_NAME
 ENV APP ${APP_NAME}
@@ -14,8 +14,6 @@ WORKDIR /root
 
 ENV USER root
 ENV HOME /root
-
-RUN /root/bin/apt-install.sh bzip2 libfontconfig1 openssl
 
 RUN install -v -d -m 0750 -o uws -g uws /opt/${APP}
 

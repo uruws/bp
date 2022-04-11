@@ -4,7 +4,7 @@ ARG APP_TAG
 FROM uws/${APP}:bundle-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220411"
+LABEL version="220412"
 
 ARG APP_NAME
 ENV APP ${APP_NAME}
@@ -21,7 +21,7 @@ RUN install -v -m 0755 /home/uws/${APP}/.meteor/local/dev_bundle/bin/node /usr/l
 FROM uws/buildpack:base-2203
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220411"
+LABEL version="220412"
 
 ARG APP_NAME2
 ENV APP ${APP_NAME2}
@@ -31,8 +31,6 @@ WORKDIR /root
 
 ENV USER root
 ENV HOME /root
-
-RUN /root/bin/apt-install.sh bzip2 libfontconfig1 openssl
 
 RUN install -v -d -m 0750 -o uws -g uws /opt/${APP}
 COPY --from=0 /opt/${APP}/bundle/ /opt/${APP}/bundle/
