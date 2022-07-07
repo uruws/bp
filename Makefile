@@ -65,7 +65,7 @@ docker/base:
 # Meteor
 
 .PHONY: meteor
-meteor: docker/meteor docker/meteor-devel docker/meteor-2.2
+meteor: docker/meteor docker/meteor-devel docker/meteor-2.2 docker/meteor-2.6
 
 .PHONY: docker/meteor
 docker/meteor: docker/base
