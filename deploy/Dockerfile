@@ -39,6 +39,9 @@ COPY --from=0 /usr/local/bin/node /usr/local/bin/node
 
 COPY --chown=uws:uws ./meteor-start.sh /usr/local/bin/meteor-start.sh
 
+COPY --chown=uws:uws ./meteor-settings.sh /usr/local/bin/meteor-settings.sh
+COPY --chown=uws:uws ./meteor-settings.js /usr/local/lib/meteor-settings.js
+
 RUN rm -vf /usr/local/bin/meteor-test.sh
 
 USER uws:uws

@@ -43,4 +43,11 @@ echo "PORT=${PORT}"
 
 echo "--- INFO end"
 
+if test -s /run/meteor/app-settings.json; then
+	echo "--- METEOR_SETTINGS start"
+	METEOR_SETTINGS=$(/usr/local/bin/meteor-settings.sh)
+	export METEOR_SETTINGS
+	echo "--- METEOR_SETTINGS end"
+fi
+
 exec node main.js
