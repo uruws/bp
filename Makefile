@@ -273,10 +273,10 @@ publish-meteor-vanilla:
 	@echo '*** Publish: meteor-vanilla $(APP_BUILD_TAG)'
 	@echo '***'
 	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
 	@/srv/uws/deploy/host/ecr-login.sh us-west-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
 	@/srv/uws/deploy/host/ecr-login.sh us-west-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
