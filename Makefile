@@ -65,7 +65,7 @@ docker/base:
 # Meteor
 
 .PHONY: meteor
-meteor: docker/meteor docker/meteor-devel docker/meteor-2.6
+meteor: docker/meteor docker/meteor-devel
 
 .PHONY: docker/meteor
 docker/meteor: docker/base
@@ -97,23 +97,6 @@ check-devel: docker/meteor-devel
 	@echo '*** Make: meteor-check devel $(APP_BUILD_TAG)'
 	@echo '***'
 	@./docker/meteor-devel/check/build.sh $(APP_BUILD_TAG)
-	@./test.sh meteor-check $(APP_BUILD_TAG)
-
-# Meteor 2.6
-
-.PHONY: docker/meteor-2.6
-docker/meteor-2.6: docker/base
-	@echo '***'
-	@echo '*** Build: meteor 2.6'
-	@echo '***'
-	@./docker/meteor-2.6/build.sh
-
-.PHONY: check-2.6
-check-2.6: docker/meteor-2.6
-	@echo '***'
-	@echo '*** Make: meteor-check 2.6 $(APP_BUILD_TAG)'
-	@echo '***'
-	@./docker/meteor-2.6/check/build.sh $(APP_BUILD_TAG)
 	@./test.sh meteor-check $(APP_BUILD_TAG)
 
 # Deploy and intermediate images
