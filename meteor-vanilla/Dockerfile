@@ -1,7 +1,7 @@
-FROM uws/meteor-2203
+FROM uws/meteor-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221205"
+LABEL version="221212"
 
 ENV APP meteor-vanilla
 
