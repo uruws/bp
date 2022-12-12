@@ -99,23 +99,6 @@ check-devel: docker/meteor-devel
 	@./docker/meteor-devel/check/build.sh $(APP_BUILD_TAG)
 	@./test.sh meteor-check $(APP_BUILD_TAG)
 
-# Meteor 1.10.2
-
-.PHONY: docker/meteor-1.10.2
-docker/meteor-1.10.2: docker/base
-	@echo '***'
-	@echo '*** Build: meteor 1.10.2'
-	@echo '***'
-	@./docker/meteor-1.10.2/build.sh
-
-.PHONY: check-1.10.2
-check-1.10.2: docker/meteor-1.10.2
-	@echo '***'
-	@echo '*** Make: meteor-check 1.10.2 $(APP_BUILD_TAG)'
-	@echo '***'
-	@./docker/meteor-1.10.2/check/build.sh $(APP_BUILD_TAG)
-	@./test.sh meteor-check $(APP_BUILD_TAG)
-
 # Meteor 2.2
 
 .PHONY: docker/meteor-2.2
