@@ -8,4 +8,8 @@ fi
 docker build "$@" --rm -t uws/buildpack:base-2203 \
 	-f docker/base/Dockerfile.2203 \
 	./docker/base
+# base-2211
+docker build "$@" --rm -t uws/buildpack:base-2211 \
+	-f docker/base/Dockerfile.2211 \
+	./docker/base
 exit 0
