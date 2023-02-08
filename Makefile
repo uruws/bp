@@ -130,10 +130,10 @@ app: log-init docker/meteor
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
-#~ 	@echo '***' | tee -a $(LOGF)
-#~ 	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
-#~ 	@echo '***' | tee -a $(LOGF)
-#~ 	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	@echo '***' | tee -a $(LOGF)
+	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: publish-app
 publish-app:
