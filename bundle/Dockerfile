@@ -4,7 +4,7 @@ ARG APP_TAG
 FROM uws/${APP}:install-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220412"
+LABEL version="230208"
 
 ARG APP_NAME
 ENV APP ${APP_NAME}

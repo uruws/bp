@@ -1,4 +1,4 @@
 FROM uws/meteor-2203
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220707"
+LABEL version="230208"

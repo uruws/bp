@@ -4,7 +4,7 @@ ARG APP_TAG
 FROM uws/${APP}:bundle-${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221212"
+LABEL version="230208"
 
 ARG APP_NAME
 ENV APP ${APP_NAME}
@@ -21,7 +21,7 @@ RUN install -v -m 0755 /home/uws/${APP}/.meteor/local/dev_bundle/bin/node /usr/l
 FROM uws/buildpack:base-2211
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="221212"
+LABEL version="230208"
 
 ARG APP_NAME2
 ENV APP ${APP_NAME2}

@@ -4,7 +4,7 @@ ARG APP_TAG
 FROM uws/${APP}:${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="220412"
+LABEL version="230208"
 
 USER root:root
 WORKDIR /root
