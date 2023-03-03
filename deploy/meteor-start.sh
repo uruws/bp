@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo "--- DEBUG start"
-
 if test -n "${DISABLE_JOBS}"; then
 	export DISABLE_JOBS="${DISABLE_JOBS}"
 	echo "DISABLE_JOBS=${DISABLE_JOBS}"
@@ -14,11 +12,13 @@ set -eu
 # phantomjs workaround
 export OPENSSL_CONF=/var/tmp/fake-openssl.cnf
 
+echo "--- DEBUG start"
+
 echo "--- user"
 id -a
 
 echo "--- env"
-env | sort
+env
 
 echo "--- node"
 node --version
@@ -31,6 +31,10 @@ if ! test -s ${appenv}; then
 fi
 ls -lhL ${appenv}
 
+echo "--- ${appenv} override"
+# stop using sockjs (use websocket instead)
+export DISABLE_SOCKJS=1
+
 echo "--- DEBUG end"
 
 # shellcheck disable=SC1090
@@ -40,6 +44,7 @@ echo "--- INFO start"
 
 echo "ROOT_URL=${ROOT_URL}"
 echo "PORT=${PORT}"
+echo "DISABLE_SOCKJS=${DISABLE_SOCKJS}"
 
 echo "--- INFO end"
 
