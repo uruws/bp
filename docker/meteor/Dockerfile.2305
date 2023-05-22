@@ -1,7 +1,7 @@
-FROM uws/buildpack:base-2203
+FROM uws/buildpack:base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230208"
+LABEL version="230522"
 
 USER root:root
 WORKDIR /root
@@ -17,7 +17,7 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-RUN curl -sS https://install.meteor.com/?release=2.7.1 | /bin/sh
+RUN curl -sS https://install.meteor.com/ | /bin/sh
 
 USER root:root
 RUN chgrp -v uws /usr/local/bin \

@@ -15,4 +15,8 @@ ${upgrd} -t uws/buildpack:base
 ${upgrd} -t uws/buildpack:devel -U docker/devel -s uws/python
 ${upgrd} -t uws/buildpack:devel
 
+# uws/meteor
+${upgrd} -t uws/meteor -U docker/meteor -s uws/buildpack:base
+${upgrd} -t uws/meteor
+
 exit 0
