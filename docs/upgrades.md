@@ -16,15 +16,6 @@
 
 ---
 
-* docker/meteor-devel
-    * `2211`:
-        * uws/docker/upgrades.py -U docker/meteor-devel -t uws/meteor:devel -s uws/meteor
-        * uws/docker/upgrades.py -t uws/meteor:devel
-    * 2203: meteor-2203
-        * build.sh: Dockerfile.2203
-
----
-
 * deploy
     * `2211`: Dockerfile buildpack:base-2211
     * 2203: Dockerfile buildpack:base-2203
