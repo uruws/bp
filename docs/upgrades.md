@@ -16,6 +16,12 @@
 
 ---
 
+    $ make upgrades-check
+    $ make upgrades
+    $ make upgrades-check
+
+---
+
 * deploy
     * `2211`: Dockerfile buildpack:base-2211
     * 2203: Dockerfile buildpack:base-2203

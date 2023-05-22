@@ -32,6 +32,10 @@ prune:
 upgrades:
 	@UWSREPO=$(UWSREPO) ./docker/upgrades-all.sh
 
+.PHONY: upgrades-check
+upgrades-check:
+	@$(UWSREPO)/docker/upgrades.py --check
+
 # devel image
 
 .PHONY: devel
