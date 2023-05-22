@@ -7,6 +7,7 @@
 
 * docker/base
     * `2305`: Debian 11.7 (bullseye-20230502-slim)
+        ./docker/base/build.sh
     * 2211: Debian 11.5 (bullseye-20221205-slim)
         * uws/docker/upgrades.py -t uws/buildpack:base
     * 2203-1: Debian 11.3 (bullseye-20220328-slim)

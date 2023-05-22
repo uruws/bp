@@ -9,6 +9,7 @@ if ! test -x "${upgrd}"; then
 fi
 
 # uws/buildpack:base
+${upgrd} -t uws/buildpack:base -U docker/base
 ${upgrd} -t uws/buildpack:base
 
 # uws/buildpack:devel

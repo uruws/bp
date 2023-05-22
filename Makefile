@@ -11,6 +11,12 @@ UWSREPO       ?= /opt/uws/src/uws
 default:
 	@$(MAKE) bootstrap
 
+.PHONY: all
+all:
+	@$(MAKE) docker/base
+	@$(MAKE) bootstrap
+	@$(MAKE) devel
+
 .PHONY: bootstrap
 bootstrap:
 	@$(MAKE) meteor
