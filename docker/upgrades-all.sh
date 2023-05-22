@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
 
-echo "uws: ${UWSREPO}"
 upgrd="${UWSREPO}/docker/upgrades.py"
 
 if ! test -x "${upgrd}"; then
@@ -11,5 +10,9 @@ fi
 
 # uws/buildpack:base
 ${upgrd} -t uws/buildpack:base
+
+# uws/buildpack:devel
+${upgrd} -t uws/buildpack:devel -U docker/devel -s uws/python
+${upgrd} -t uws/buildpack:devel
 
 exit 0
