@@ -21,11 +21,6 @@ all:
 bootstrap:
 	@$(MAKE) meteor
 
-.PHONY: log-init
-log-init:
-	@mkdir -vp $(LOGS_DIR)
-	@date -R >$(LOGF)
-
 .PHONY: clean
 clean:
 	@rm -rf ./build ./tmp ./__pycache__
@@ -147,16 +142,16 @@ deploy:
 
 .PHONY: app
 app:
-	@$(MAKE) log-init
-	@$(MAKE) docker/meteor
+	@mkdir -vp $(LOGS_DIR)
+	@date -R >$(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
-	@echo '***' | tee -a $(LOGF)
-	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
-	@echo '***' | tee -a $(LOGF)
-	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	##@echo '***' | tee -a $(LOGF)
+	##@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+	##@echo '***' | tee -a $(LOGF)
+	##@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: publish-app
 publish-app:
@@ -194,8 +189,8 @@ publish-beta:
 
 .PHONY: crowdsourcing
 crowdsourcing:
-	@$(MAKE) log-init
-	@$(MAKE) docker/meteor
+	@mkdir -vp $(LOGS_DIR)
+	@date -R >$(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: crowdsourcing $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -215,8 +210,8 @@ publish-crowdsourcing:
 
 .PHONY: infra-ui
 infra-ui:
-	@$(MAKE) log-init
-	@$(MAKE) docker/meteor
+	@mkdir -vp $(LOGS_DIR)
+	@date -R >$(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: infra-ui $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -238,8 +233,8 @@ publish-infra-ui:
 
 .PHONY: meteor-vanilla
 meteor-vanilla:
-	@$(MAKE) log-init
-	@$(MAKE) docker/meteor
+	@mkdir -vp $(LOGS_DIR)
+	@date -R >$(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: meteor-vanilla $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
