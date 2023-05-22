@@ -5,6 +5,7 @@ TEST_FLAGS    ?=
 LOGS_DIR      ?= $(HOME)/logs
 LOG_DATE      != date '+%y%m%d-%H%M%S'
 LOGF          := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
+UWSREPO       ?= /opt/uws/src/uws
 
 .PHONY: default
 default:
@@ -26,6 +27,10 @@ clean:
 .PHONY: prune
 prune:
 	@docker system prune -f
+
+.PHONY: upgrades
+upgrades:
+	@UWSREPO=$(UWSREPO) ./docker/upgrades-all.sh
 
 # devel image
 
