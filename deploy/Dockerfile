@@ -18,7 +18,7 @@ ENV HOME /root
 RUN rm -vf /usr/local/bin/node
 RUN install -v -m 0755 /home/uws/${APP}/.meteor/local/dev_bundle/bin/node /usr/local/bin/node
 
-FROM uws/buildpack:base-2211
+FROM uws/buildpack:base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
 LABEL version="230208"
