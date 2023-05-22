@@ -1,16 +1,18 @@
-BUILD_TAG != git describe --tags --always
-APP_NAME ?= NOTSET
+BUILD_TAG     != git describe --tags --always
+APP_NAME      ?= NOTSET
 APP_BUILD_TAG ?= NOTSET
-TEST_FLAGS ?=
-LOGS_DIR ?= $(HOME)/logs
-LOG_DATE != date '+%y%m%d-%H%M%S'
-LOGF := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
+TEST_FLAGS    ?=
+LOGS_DIR      ?= $(HOME)/logs
+LOG_DATE      != date '+%y%m%d-%H%M%S'
+LOGF          := $(LOGS_DIR)/$(APP_NAME)-build-$(LOG_DATE)-$(APP_BUILD_TAG).log
 
 .PHONY: default
-default: bootstrap
+default:
+	@$(MAKE) bootstrap
 
 .PHONY: bootstrap
-bootstrap: meteor
+bootstrap:
+	@$(MAKE) meteor
 
 .PHONY: log-init
 log-init:
@@ -34,7 +36,9 @@ devel:
 # Internal checks
 
 .PHONY: check-all
-check-all: check meteor-check
+check-all:
+	@$(MAKE) check
+	@$(MAKE) meteor-check
 
 .PHONY: check
 check:
@@ -109,14 +113,16 @@ install:
 	@./install/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: bundle
-bundle: install
+bundle:
+	@$(MAKE) install
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Meteor bundle: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./bundle/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: deploy
-deploy: bundle
+deploy:
+	@$(MAKE) bundle
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Build: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -125,7 +131,9 @@ deploy: bundle
 # App
 
 .PHONY: app
-app: log-init docker/meteor
+app:
+	@$(MAKE) log-init
+	@$(MAKE) docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -170,7 +178,9 @@ publish-beta:
 # Crowdsourcing
 
 .PHONY: crowdsourcing
-crowdsourcing: log-init docker/meteor
+crowdsourcing:
+	@$(MAKE) log-init
+	@$(MAKE) docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: crowdsourcing $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -189,7 +199,9 @@ publish-crowdsourcing:
 # Infra-UI
 
 .PHONY: infra-ui
-infra-ui: log-init docker/meteor
+infra-ui:
+	@$(MAKE) log-init
+	@$(MAKE) docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: infra-ui $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
@@ -210,7 +222,9 @@ publish-infra-ui:
 # meteor-vanilla
 
 .PHONY: meteor-vanilla
-meteor-vanilla: log-init docker/meteor
+meteor-vanilla:
+	@$(MAKE) log-init
+	@$(MAKE) docker/meteor
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: meteor-vanilla $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
