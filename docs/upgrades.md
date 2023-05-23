@@ -20,3 +20,8 @@
     $ make upgrades-check
     $ make upgrades
     $ make upgrades-check
+
+---
+
+    $ git tag -a -m 'bpX release' bpX
+    $ ./deploy.sh
