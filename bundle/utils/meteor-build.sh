@@ -10,4 +10,7 @@ export OPENSSL_CONF=/var/tmp/fake-openssl.cnf
 
 cd ${HOME}/${app}
 
-exec meteor build /opt/${app} --directory --server-only
+# From heroku build log:
+#   /tmp/codon/tmp/cache/meteor/.meteor/meteor build --platforms=web.browser --server https://dev.talkingpts.org/ --directory /tmp/codon/tmp/buildpacks/12684dcdaf0c8e69ace478395557e8d1c737cf0c/build-fObn
+
+exec meteor build --platforms=web.browser --directory /opt/${app}
