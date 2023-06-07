@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 app=${1:?'app name?'}
 
 # https://docs.meteor.com/environment-variables.html#METEOR-DISABLE-OPTIMISTIC-CACHING
