@@ -136,7 +136,6 @@ bundle:
 
 .PHONY: deploy
 deploy:
-	@date -R | tee -a $(LOGF)
 	@$(MAKE) bundle
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Build: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
