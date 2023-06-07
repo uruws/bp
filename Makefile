@@ -117,37 +117,44 @@ check-devel: docker/meteor-devel
 
 .PHONY: install
 install:
+	@date -R | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** NPM install: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./install/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@date -R | tee -a $(LOGF)
 
 .PHONY: bundle
 bundle:
 	@$(MAKE) install
+	@date -R | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Meteor bundle: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./bundle/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@date -R | tee -a $(LOGF)
 
 .PHONY: deploy
 deploy:
+	@date -R | tee -a $(LOGF)
 	@$(MAKE) bundle
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Build: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@date -R | tee -a $(LOGF)
 
 # App
 
 .PHONY: app
 app:
 	@mkdir -vp $(LOGS_DIR)
-	@date -R >$(LOGF)
+	@date -R | tee $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@echo '*** Make: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	@echo '***' | tee -a $(LOGF)
 	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+	@date -R | tee -a $(LOGF)
 	##@echo '***' | tee -a $(LOGF)
 	##@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
 	##@echo '***' | tee -a $(LOGF)
