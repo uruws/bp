@@ -18,7 +18,6 @@ WORKDIR /home/uws
 ENV USER uws
 ENV HOME /home/uws
 
-ARG APP_NAME
-WORKDIR ${HOME}/${APP_NAME}
+COPY --chown=uws:uws ./utils/*.sh /home/uws/utils/
 
-RUN meteor npm install
+RUN /home/uws/utils/npm-install.sh ${APP}
