@@ -4,14 +4,16 @@ app=${1:?'app name?'}
 
 cd "/home/uws/${app}"
 
-which meteor
-which node
-which npm
-which npx
-
+which  meteor
 meteor --version
-echo "  Node $(node --version)"
-echo "   NPM $(npm --version)"
-echo "   NPX $(npx --version)"
+
+which node
+node  --version
+
+which npm
+npm   --version
+
+which npx
+npx   --version
 
 exec npm install --no-audit
