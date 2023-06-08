@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh man-db
+RUN /root/bin/apt-install.sh man-db less
 
 USER uws:uws
 WORKDIR /home/uws
