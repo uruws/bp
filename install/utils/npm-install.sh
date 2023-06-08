@@ -9,10 +9,10 @@ which node
 which npm
 which npx
 
-echo "Meteor: $(meteor --version)"
-echo "  Node: $(node --version)"
-echo "   NPM: $(npm --version)"
-echo "   NPX: $(npx --version)"
+meteor --version
+echo "  Node $(node --version)"
+echo "   NPM $(npm --version)"
+echo "   NPX $(npx --version)"
 
 echo "+ npm install --no-audit"
 exec npm install --no-audit
