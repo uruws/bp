@@ -1,18 +1,18 @@
 #!/bin/sh
-set -eux
+set -eu
 app=${1:?'app name?'}
 
 cd "/home/uws/${app}"
 
-MVER=$(meteor --version)
-echo "Meteor: ${MVER}"
+which meteor
+which node
+which npm
+which npx
 
-MNODE=$(meteor node -e 'process.stdout.write(process.execPath)')
-MNODE_VER=$(${MNODE} --version)
-echo "Node: ${MNODE_VER}"
+echo "Meteor: $(meteor --version)"
+echo "  Node: $(node --version)"
+echo "   NPM: $(npm --version)"
+echo "   NPX: $(npx --version)"
 
-MNPM="$(dirname "${MNODE}")/npm"
-MNPM_VER=$(${MNPM} --version)
-echo "NPM: ${MNPM_VER}"
-
-exec ${MNPM} install --no-audit
+echo "+ npm install --no-audit"
+exec npm install --no-audit

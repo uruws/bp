@@ -1,7 +1,7 @@
 FROM uws/buildpack:base-2305
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230522"
+LABEL version="230608"
 
 USER root:root
 WORKDIR /root
@@ -28,12 +28,15 @@ RUN ln -sv /home/uws/.meteor/meteor /usr/local/bin/meteor
 
 RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"); \
 	export METEOR_NPM=$(dirname ${METEOR_NODE})/npm; \
+	export METEOR_NPX=$(dirname ${METEOR_NODE})/npx; \
 	ln -sv ${METEOR_NODE} /usr/local/bin/node \
-	&& ln -sv ${METEOR_NPM} /usr/local/bin/npm
+	&& ln -sv ${METEOR_NPM} /usr/local/bin/npm \
+	&& ln -sv ${METEOR_NPX} /usr/local/bin/npx
 
 RUN echo "*** $(meteor --version)" \
 	&& echo "***   Node $(node --version)" \
 	&& echo "***    NPM $(npm --version)"
+	&& echo "***    NPX $(npx --version)"
 
 RUN npm config set color false
 
