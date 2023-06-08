@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -eux
 app=${1:?'app name?'}
 
 cd "/home/uws/${app}"
@@ -14,5 +14,4 @@ echo "  Node $(node --version)"
 echo "   NPM $(npm --version)"
 echo "   NPX $(npx --version)"
 
-echo "+ npm install --no-audit"
 exec npm install --no-audit
