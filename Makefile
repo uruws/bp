@@ -186,18 +186,7 @@ publish-app:
 	@echo '***'
 	@echo '*** Publish: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 \
-		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-west-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 \
-		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 \
-		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-west-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 \
-		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@./publish.sh uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 #
 # Beta
@@ -212,8 +201,7 @@ publish-beta:
 	@echo '***'
 	@echo '*** Publish: $(APP_NAME) $(APP_BUILD_TAG)'
 	@echo '***'
-	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/beta:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@./publish.sh uws/beta:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 #
 # Crowdsourcing
@@ -233,10 +221,7 @@ publish-crowdsourcing:
 	@echo '***'
 	@echo '*** Publish: crowdsourcing $(APP_BUILD_TAG)'
 	@echo '***'
-	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@./publish.sh uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 #
 # Infra-UI
@@ -256,12 +241,7 @@ publish-infra-ui:
 	@echo '***'
 	@echo '*** Publish: infra-ui $(APP_BUILD_TAG)'
 	@echo '***'
-	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-west-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@./publish.sh uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
 #
 # meteor-vanilla
@@ -281,11 +261,4 @@ publish-meteor-vanilla:
 	@echo '***'
 	@echo '*** Publish: meteor-vanilla $(APP_BUILD_TAG)'
 	@echo '***'
-	@/srv/uws/deploy/host/ecr-login.sh us-east-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-east-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-west-1
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-1 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
-	@/srv/uws/deploy/host/ecr-login.sh us-west-2
-	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
+	@./publish.sh uws/meteor-vanilla:deploy-$(APP_BUILD_TAG) uws:meteor-vanilla-$(APP_BUILD_TAG)-$(BUILD_TAG)
