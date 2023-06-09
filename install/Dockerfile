@@ -20,4 +20,5 @@ ENV HOME /home/uws
 
 COPY --chown=uws:uws ./utils/*.sh /home/uws/utils/
 
+RUN /home/uws/utils/pre-install.sh ${APP}
 RUN /home/uws/utils/npm-install.sh ${APP}
