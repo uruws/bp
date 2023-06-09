@@ -8,6 +8,7 @@ cd "/home/uws/${app}"
 if test -s ./client/build.css; then
 	tmpfn=$(mktemp -p /tmp pre-install-client-build-css.XXXXXXXXXX)
 	<./client/build.css sed "s/\[replaceThis\]/$(date '+%s')/" >"${tmpfn}"
+	cat "${tmpfn}" >./client/build.css
 	rm -f "${tmpfn}"
 fi
 
