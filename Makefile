@@ -21,6 +21,10 @@ all:
 bootstrap:
 	@$(MAKE) meteor
 
+#
+# cleanup
+#
+
 .PHONY: clean
 clean:
 	@rm -rf ./build ./tmp ./__pycache__
@@ -28,6 +32,10 @@ clean:
 .PHONY: prune
 prune:
 	@docker system prune -f
+
+#
+# upgrades
+#
 
 .PHONY: upgrades
 upgrades:
@@ -37,13 +45,17 @@ upgrades:
 upgrades-check:
 	@$(UWSREPO)/docker/upgrades.py --check
 
+#
 # devel image
+#
 
 .PHONY: devel
 devel:
 	@./docker/devel/build.sh
 
+#
 # Internal checks
+#
 
 .PHONY: check-all
 check-all:
@@ -67,7 +79,9 @@ check-meteor:
 publish-meteor-check:
 	@echo 'publish-meteor-check'
 
+#
 # Base image
+#
 
 .PHONY: docker/base
 docker/base:
@@ -76,7 +90,9 @@ docker/base:
 	@echo '***'
 	@./docker/base/build.sh
 
+#
 # Meteor
+#
 
 .PHONY: meteor
 meteor: docker/meteor docker/meteor-devel
@@ -96,7 +112,9 @@ check-latest: docker/meteor
 	@./docker/meteor/check/build.sh $(APP_BUILD_TAG)
 	@./test.sh meteor-check $(APP_BUILD_TAG)
 
+#
 # Meteor devel
+#
 
 .PHONY: docker/meteor-devel
 docker/meteor-devel: docker/meteor
@@ -113,7 +131,9 @@ check-devel: docker/meteor-devel
 	@./docker/meteor-devel/check/build.sh $(APP_BUILD_TAG)
 	@./test.sh meteor-check $(APP_BUILD_TAG)
 
+#
 # Deploy and intermediate images
+#
 
 .PHONY: install
 install:
@@ -143,7 +163,9 @@ deploy:
 	@./deploy/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 	@date -R | tee -a $(LOGF)
 
+#
 # App
+#
 
 .PHONY: app
 app:
@@ -154,10 +176,10 @@ app:
 	@echo '***' | tee -a $(LOGF)
 	@./app/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 	@date -R | tee -a $(LOGF)
-	##@echo '***' | tee -a $(LOGF)
-	##@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
-	##@echo '***' | tee -a $(LOGF)
-	##@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
+#~ 	@echo '***' | tee -a $(LOGF)
+#~ 	@echo '*** Test: $(APP_NAME) $(APP_BUILD_TAG)' | tee -a $(LOGF)
+#~ 	@echo '***' | tee -a $(LOGF)
+#~ 	@TEST_FLAGS=$(TEST_FLAGS) ./test.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 
 .PHONY: publish-app
 publish-app:
@@ -177,7 +199,9 @@ publish-app:
 	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 \
 		uws/app:deploy-$(APP_BUILD_TAG) uws:meteor-app-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
+#
 # Beta
+#
 
 .PHONY: beta
 beta:
@@ -191,7 +215,9 @@ publish-beta:
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
 	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/beta:deploy-$(APP_BUILD_TAG) uws:meteor-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
+#
 # Crowdsourcing
+#
 
 .PHONY: crowdsourcing
 crowdsourcing:
@@ -212,7 +238,9 @@ publish-crowdsourcing:
 	@/srv/uws/deploy/host/ecr-login.sh us-east-2
 	@/srv/uws/deploy/cluster/ecr-push.sh us-east-2 uws/crowdsourcing:deploy-$(APP_BUILD_TAG) uws:meteor-crowdsourcing-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
+#
 # Infra-UI
+#
 
 .PHONY: infra-ui
 infra-ui:
@@ -235,7 +263,9 @@ publish-infra-ui:
 	@/srv/uws/deploy/host/ecr-login.sh us-west-2
 	@/srv/uws/deploy/cluster/ecr-push.sh us-west-2 uws/infra-ui:deploy-$(APP_BUILD_TAG) uws:meteor-infra-ui-$(APP_BUILD_TAG)-$(BUILD_TAG)
 
+#
 # meteor-vanilla
+#
 
 .PHONY: meteor-vanilla
 meteor-vanilla:

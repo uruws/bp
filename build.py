@@ -5,11 +5,11 @@
 
 import sys
 
-from argparse import ArgumentParser
-from os import chdir, path, system, environ, linesep
-from pathlib import Path
+from argparse   import ArgumentParser
+from os         import chdir, path, system, environ, linesep
+from pathlib    import Path
 from subprocess import getstatusoutput
-from time import time
+from time       import time
 
 status_dir = environ.get('UWSCLI_BUILD_STATUS_DIR', '/run/uwscli/build')
 
