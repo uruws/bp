@@ -2,4 +2,17 @@
 set -eux
 app=${1:?'app name?'}
 cd /opt/${app}/bundle/programs/server
-exec meteor npm install --production
+
+which  meteor
+meteor --version
+
+which node
+node  --version
+
+which npm
+npm   --version
+
+which npx
+npx   --version
+
+exec npm install --production
