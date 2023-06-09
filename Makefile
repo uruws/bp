@@ -66,14 +66,14 @@ check-all:
 check:
 	@./docker/devel/cmd.sh ./test/check.sh
 
-.PHONY: meteor-check
-meteor-check:
-	@$(MAKE) check-latest APP_BUILD_TAG=$(APP_BUILD_TAG)
-	@$(MAKE) check-devel APP_BUILD_TAG=$(APP_BUILD_TAG)
-
 .PHONY: check-meteor
 check-meteor:
 	@./check.sh
+
+.PHONY: meteor-check
+meteor-check:
+	@$(MAKE) check-latest APP_BUILD_TAG=99.0
+	@$(MAKE) check-devel APP_BUILD_TAG=99.0
 
 .PHONY: publish-meteor-check
 publish-meteor-check:
@@ -135,6 +135,7 @@ check-devel: docker/meteor-devel
 # Deploy and intermediate images
 #
 
+# install deps
 .PHONY: install
 install:
 	@date -R | tee -a $(LOGF)
@@ -144,6 +145,7 @@ install:
 	@./install/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 	@date -R | tee -a $(LOGF)
 
+# compile
 .PHONY: bundle
 bundle:
 	@$(MAKE) install
@@ -154,6 +156,7 @@ bundle:
 	@./bundle/build.sh $(APP_NAME) $(APP_BUILD_TAG) | tee -a $(LOGF)
 	@date -R | tee -a $(LOGF)
 
+# deploy setup
 .PHONY: deploy
 deploy:
 	@$(MAKE) bundle
