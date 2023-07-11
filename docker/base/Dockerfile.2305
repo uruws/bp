@@ -1,7 +1,7 @@
-FROM debian:bullseye-20230502-slim
+FROM debian:bookworm-20230703-slim
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230531"
+LABEL version="230711"
 
 USER root:root
 WORKDIR /root
