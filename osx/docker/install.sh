@@ -10,9 +10,9 @@ brew upgrade
 brew install wget
 brew install docker
 
-wget -q -O /tmp/Docker.dmg https://desktop.docker.com/mac/main/arm64/Docker.dmg
+wget -q -O /var/tmp/Docker.dmg https://desktop.docker.com/mac/main/arm64/Docker.dmg
 
-sudo hdiutil attach /tmp/Docker.dmg
+sudo hdiutil attach /var/tmp/Docker.dmg
 sudo /Volumes/Docker/Docker.app/Contents/MacOS/install
 sudo hdiutil detach /Volumes/Docker
 
