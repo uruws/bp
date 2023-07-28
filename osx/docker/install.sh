@@ -4,8 +4,8 @@ set -eu
 
 sudo softwareupdate --install-rosetta
 
-brew install update
-brew install upgrade
+brew update
+brew upgrade
 
 brew install wget
 brew install docker
