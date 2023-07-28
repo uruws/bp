@@ -13,7 +13,7 @@ rm -vf /var/tmp/Docker.dmg
 curl -o /var/tmp/Docker.dmg https://desktop.docker.com/mac/main/arm64/Docker.dmg
 
 sudo hdiutil attach /var/tmp/Docker.dmg
-sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --user="${USER}"
+sudo /Volumes/Docker/Docker.app/Contents/MacOS/install --accept-license --user="${USER}"
 sudo hdiutil detach /Volumes/Docker
 
 exit 0
