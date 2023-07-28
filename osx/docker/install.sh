@@ -7,7 +7,7 @@ sudo softwareupdate --install-rosetta
 brew update
 brew upgrade
 
-brew install docker
+#brew install docker
 
 rm -vf /var/tmp/Docker.dmg
 curl -o /var/tmp/Docker.dmg https://desktop.docker.com/mac/main/arm64/Docker.dmg
