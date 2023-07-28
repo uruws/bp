@@ -1,5 +1,5 @@
 #!/bin/sh
-set -u
+set -xu
 
 brew uninstall docker
 brew uninstall homebrew/cask/docker

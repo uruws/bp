@@ -1,6 +1,6 @@
 #!/bin/sh
 # https://docs.docker.com/desktop/install/mac-install/
-set -eu
+set -xeu
 
 sudo softwareupdate --install-rosetta
 
