@@ -7,11 +7,11 @@ fi
 # base-2203
 docker rmi uws/buildpack:base-2203 || true
 # base-2211
-docker build "$@" --rm -t uws/buildpack:base-2211 \
+docker build --platform=linux/amd64 --rm -t uws/buildpack:base-2211 \
 	-f docker/base/Dockerfile.2211 \
 	./docker/base
 # base-2305
-docker build "$@" --rm -t uws/buildpack:base-2305 \
+docker build --platform=linux/amd64 --rm -t uws/buildpack:base-2305 \
 	-f docker/base/Dockerfile.2305 \
 	./docker/base
 exit 0

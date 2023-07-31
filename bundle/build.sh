@@ -2,7 +2,7 @@
 set -eu
 app=${1:?'app name?'}
 app_tag=${2:?'build tag?'}
-exec docker build --rm -t uws/${app}:bundle-${app_tag} \
+exec docker build --platform=linux/amd64 --rm -t uws/${app}:bundle-${app_tag} \
 	--build-arg APP=${app} \
 	--build-arg APP_NAME=${app} \
 	--build-arg APP_TAG=${app_tag} \
