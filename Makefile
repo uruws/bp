@@ -95,17 +95,21 @@ docker/base:
 #
 
 .PHONY: meteor
-meteor: docker/meteor docker/meteor-devel
+meteor:
+	@$(MAKE) docker/meteor
+	@$(MAKE) docker/meteor-devel
 
 .PHONY: docker/meteor
-docker/meteor: docker/base
+docker/meteor:
+	@$(MAKE) docker/base
 	@echo '***'
 	@echo '*** Build: meteor'
 	@echo '***'
 	@./docker/meteor/build.sh
 
 .PHONY: check-latest
-check-latest: docker/meteor
+check-latest:
+	@$(MAKE) docker/meteor
 	@echo '***'
 	@echo '*** Make: meteor-check latest $(APP_BUILD_TAG)'
 	@echo '***'
@@ -117,14 +121,16 @@ check-latest: docker/meteor
 #
 
 .PHONY: docker/meteor-devel
-docker/meteor-devel: docker/meteor
+docker/meteor-devel:
+	@$(MAKE) docker/meteor
 	@echo '***'
 	@echo '*** Build: meteor devel'
 	@echo '***'
 	@./docker/meteor-devel/build.sh
 
 .PHONY: check-devel
-check-devel: docker/meteor-devel
+check-devel:
+	@$(MAKE) docker/meteor-devel
 	@echo '***'
 	@echo '*** Make: meteor-check devel $(APP_BUILD_TAG)'
 	@echo '***'
