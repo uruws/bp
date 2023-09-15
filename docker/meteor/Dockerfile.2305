@@ -9,7 +9,7 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh curl procps git make python3
+RUN /root/bin/apt-install.sh build-essential curl procps git python3
 
 USER uws:uws
 WORKDIR /home/uws

@@ -12,8 +12,6 @@ WORKDIR /root
 ENV USER root
 ENV HOME /root
 
-RUN /root/bin/apt-install.sh build-essential
-
 USER uws:uws
 WORKDIR /home/uws
 
