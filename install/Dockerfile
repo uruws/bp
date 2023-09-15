@@ -4,13 +4,15 @@ ARG APP_TAG
 FROM uws/${APP}:${APP_TAG}
 
 LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
-LABEL version="230208"
+LABEL version="230915"
 
 USER root:root
 WORKDIR /root
 
 ENV USER root
 ENV HOME /root
+
+RUN /root/bin/apt-install.sh build-essential
 
 USER uws:uws
 WORKDIR /home/uws
