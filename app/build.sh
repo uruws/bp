@@ -6,7 +6,7 @@ if ! test -d ./${app}; then
 	echo "${app}: invalid app name" >&2
 	exit 9
 fi
-exec docker build --platform=linux/amd64 --rm -t uws/${app}:${app_tag} \
+exec docker build --rm -t uws/${app}:${app_tag} \
 	--build-arg APP=${app} \
 	-f ./${app}/Dockerfile \
 	./${app}

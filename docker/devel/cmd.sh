@@ -9,4 +9,4 @@ exec docker run ${CMD_ARGS} --rm --name buildpack-devel \
 	-v ${PWD}:/srv/deploy/Buildpack:ro \
 	-v ${PWD}/tmp/tmpdir:/home/uws/tmp \
 	-v ${PWD}/tmp/rundir:/run/uwscli \
-	uws/buildpack:devel-2305 "$@"
+	uws/buildpack:devel-2309 "$@"

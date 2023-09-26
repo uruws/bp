@@ -8,8 +8,7 @@ fi
 docker rmi uws/buildpack:base-2211 || true
 docker rmi uws/buildpack:base-2305 || true
 # base-2309
-docker build --platform=linux/amd64 --rm \
-	-t uws/buildpack:base-2309 \
+docker build --rm -t uws/buildpack:base-2309 \
 	-f docker/base/Dockerfile.2309 \
 	./docker/base
 exit 0

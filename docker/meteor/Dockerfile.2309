@@ -1,0 +1,44 @@
+FROM uws/buildpack:base-2309
+
+LABEL mantainer="Jeremías Casteglione <jeremias@talkingpts.org>"
+LABEL version="230926"
+
+USER root:root
+WORKDIR /root
+
+ENV USER root
+ENV HOME /root
+
+RUN /root/bin/apt-install.sh build-essential curl procps git python3
+
+USER uws:uws
+WORKDIR /home/uws
+
+ENV USER uws
+ENV HOME /home/uws
+
+RUN curl -sS https://install.meteor.com/ | /bin/sh
+
+USER root:root
+RUN chgrp -v uws /usr/local/bin \
+	&& chmod -v g+w /usr/local/bin
+USER uws:uws
+
+RUN ln -sv /home/uws/.meteor/meteor /usr/local/bin/meteor
+
+RUN export METEOR_NODE=$(meteor node -e "process.stdout.write(process.execPath)"); \
+	export METEOR_NPM=$(dirname ${METEOR_NODE})/npm; \
+	export METEOR_NPX=$(dirname ${METEOR_NODE})/npx; \
+	ln -sv ${METEOR_NODE} /usr/local/bin/node \
+	&& ln -sv ${METEOR_NPM} /usr/local/bin/npm \
+	&& ln -sv ${METEOR_NPX} /usr/local/bin/npx
+
+RUN echo "*** $(meteor --version)" \
+	&& echo "***   Node $(node --version)" \
+	&& echo "***    NPM $(npm --version)" \
+	&& echo "***    NPX $(npx --version)"
+
+RUN npm config set color false
+
+ENV NO_COLOR 1
+ENV NODE_DISABLE_COLORS 1
